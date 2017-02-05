@@ -21,13 +21,13 @@ qBot
 6. Run server 
   * `python manage.py runserver` 
 
-## login as admin 
+## Login as admin 
 1. Run server 
 2. Go to http://127.0.0.1:8000/admin 
 3. Input username and password
   * username: admin
-	* password: admin123
+  * password: admin123
 
-## look at the app 
+## Look at the webapp 
 1. Run server
 2. Go to http://127.0.0.1:8000/questions/
