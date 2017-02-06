@@ -1,9 +1,11 @@
+{% extends "qBot/base.html" %}
 
-
-
+{% block content %}
   <h2>Login</h2>
   <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Login</button>
+    <input class="btn btn-default" type="submit" value="Submit">
+
   </form>
+{% endblock content %}
