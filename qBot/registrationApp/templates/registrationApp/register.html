@@ -1,0 +1,11 @@
+{% extends "qBot/base.html" %}
+
+
+
+{% block content %}
+<form method="post" action=".">{% csrf_token %}
+{{ form.as_p }}
+<input class="btn btn-default" type="submit" value="Register">
+{% csrf_token %}
+</form>
+{% endblock %}
