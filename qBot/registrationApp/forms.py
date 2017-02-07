@@ -18,6 +18,12 @@ class RegistrationForm(forms.Form):
                 return password2
         raise forms.ValidationError('Passwords do not match.')
 
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        if User.objects.filter(email=email).exists():
+            raise forms.ValidationError("Email already exists")
+        return email
+
     def clean_username(self):
         username = self.cleaned_data['username']
         if not re.search(r'^\w+$', username):
