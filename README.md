@@ -13,14 +13,23 @@ qBot
 2. Clone project 
   * `git clone https://github.com/siljr/pu.git`
 3. Open virtual enviroment 
+  cd to the virtual enviroment folder (probably named env or venv)
   * `source bin/activate`
 4. Install requirements.txt 
   * `pip install -r requirements.txt`
 5. Migrate server 
   * `python manage.py migrate`
 6. Run server 
+  * cd to the qBot folder 
   * `python manage.py runserver` 
+7. Create superuser 
+  * `python manage.py createsuperuser`
+  * username: admin
+  * email: (leave blank, just press enter)
+  * password: admin123
 
+
+ 
 ## Login as admin 
 1. Run server 
 2. Go to http://127.0.0.1:8000/admin 
