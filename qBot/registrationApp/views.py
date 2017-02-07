@@ -3,10 +3,8 @@ from django.shortcuts import render
 # Create your views here.
 from registrationApp.forms import *
 
-from django.template import RequestContext
 from django.http import HttpResponseRedirect
-from django.shortcuts import render_to_response
-
+from django.shortcuts import render
 
 
 def register_page(request):
@@ -14,7 +12,7 @@ def register_page(request):
         form = RegistrationForm(request.POST)
         if form.is_valid():
             user = User.objects.create_user(username=form.cleaned_data['username'], password=form.cleaned_data['password1'], email=form.cleaned_data['email'])
-            return HttpResponseRedirect('/')
+            return HttpResponseRedirect('/questions')
     form = RegistrationForm()
-    variables = RequestContext(request, {'form': form})
-    return render_to_response('registrationApp/register.html',variables)
+    context = {'form': form}
+    return render(request, 'registrationApp/register.html', context)
