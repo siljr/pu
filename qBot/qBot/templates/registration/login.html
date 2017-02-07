@@ -1,11 +1,24 @@
 {% extends "qBot/base.html" %}
 
-{% block content %}
-  <h2>Login</h2>
-  <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input class="btn btn-default" type="submit" value="Submit">
 
-  </form>
+{% block content %}
+    <div class="loginForm">
+        <h2>Login</h2>
+        <form method="post">
+            {% csrf_token %}
+            <div class="control-group">
+                <label class="control-label" for="username">Username</label>
+                <div class="controls">
+                    <input class="form-control" type="text" id="username" name="username"  placeholder="Username">
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="password">Password</label>
+                <div class="controls">
+                    <input class="form-control" type="password" name="password" id="password" placeholder="Password">
+                </div>
+            </div>
+            <input class="btn btn-default" type="submit" value="Submit">
+        </form>
+    </div>
 {% endblock content %}

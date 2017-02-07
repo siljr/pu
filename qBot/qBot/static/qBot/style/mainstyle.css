@@ -1,0 +1,11 @@
+.loginForm {
+    margin: 100px auto;
+    width: 40%;
+    border-radius: 10px;
+    background-color: #f2f2f2;
+    padding: 40px;
+}
+
+.loginForm input[type=submit] {
+    margin: 10px auto;
+}
