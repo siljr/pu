@@ -23,7 +23,7 @@ qBot
   * cd to the qBot folder 
   * `python manage.py runserver` 
 7. Create superuser 
-  * `python manage.py createsuperuser`
+  * `python manage.py createsuperuser`
   * username: admin
   * email: (leave blank, just press enter)
   * password: admin123
