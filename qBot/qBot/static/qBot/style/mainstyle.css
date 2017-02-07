@@ -1,4 +1,4 @@
-.loginForm {
+.inputForm {
     margin: 100px auto;
     width: 40%;
     border-radius: 10px;
@@ -6,6 +6,10 @@
     padding: 40px;
 }
 
-.loginForm input[type=submit] {
+.inputForm [type=submit] {
     margin: 10px auto;
+}
+
+.inputForm input[type=text]{
+
 }

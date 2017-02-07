@@ -5,7 +5,36 @@
 {% block content %}
 <form method="post" action=".">
 {% csrf_token %}
-{{ form.as_p }}
-<input class="btn btn-default" type="submit" value="Register">
+    <div class="inputForm">
+{#        {{ form.as_p }}#}
+
+        <div class="control-group">
+            <label class="control-label" for="username">Username</label>
+            <div class="controls">
+                <input class="form-control" type="text" id="username" name="username"  placeholder="Username">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="email">Email</label>
+            <div class="controls">
+                <input class="form-control" type="email" id="email" name="email"  placeholder="Email">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="password">Password</label>
+            <div class="controls">
+                <input class="form-control" type="password" id="password1" name="password1"  placeholder="Password">
+            </div>
+        </div>
+       <div class="control-group">
+            <label class="control-label" for="password">Password (again)</label>
+            <div class="controls">
+                <input class="form-control" type="password" id="password2" name="password2"  placeholder="Password">
+            </div>
+        </div>
+
+        <input class="btn btn-default" type="submit" value="Register">
+
+    </div>
 </form>
 {% endblock %}
