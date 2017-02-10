@@ -10,7 +10,7 @@ qBot
 # Get started
 0. Install pip https://pip.pypa.io/en/stable/installing/ 
 1. Set up a virtual enviroment https://virtualenv.pypa.io/en/stable/
-  * 'virtualenv -p /usr/local/bin/python3.6 env'
+  * `virtualenv -p /usr/local/bin/python3.6 env`
 2. Clone project 
   * `git clone https://github.com/siljr/pu.git`
 3. Open virtual enviroment 
