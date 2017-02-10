@@ -124,4 +124,4 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 # when logged in, the user will be redirected to this page
-LOGIN_REDIRECT_URL = 'questions:index'
+LOGIN_REDIRECT_URL = 'questions:create_question'
