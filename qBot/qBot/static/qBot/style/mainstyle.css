@@ -13,3 +13,7 @@
 .inputForm input[type=text]{
 
 }
+
+.vresize {
+    resize: vertical;
+}

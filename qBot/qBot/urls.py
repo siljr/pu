@@ -23,9 +23,11 @@ urlpatterns = [
     # added by silje
     url(r'^questions/', include('questions.urls', namespace="questions")),
     url(r'^login/$', auth_views.login, name='login'),
-    url(r'^logout/$', auth_views.logout, {'next_page':'login'}, name='logout'),
-
+    url(r'^logout/$', auth_views.logout, {'next_page': 'login'}, name='logout'),
     url(r'^register/', include('registrationApp.urls')),
+
+    # The url that shows the questions app
+    url(r'^createquestion/', include('questions.urls')),
 
 
     url(r'^admin/', admin.site.urls),

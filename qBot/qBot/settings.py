@@ -37,8 +37,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # adding all the apps that we have written ourselves
     'qBot',
     'registrationApp',
+    'questions',
 ]
 
 MIDDLEWARE = [
