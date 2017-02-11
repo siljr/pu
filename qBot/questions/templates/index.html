@@ -2,6 +2,7 @@
 
 {% block content %}
     {% if questions %}
+        <div class="container">
         <ul>
             {% for question in questions %}
                 <li>
@@ -10,6 +11,7 @@
                 </li>
             {%  endfor %}
         </ul>
+        </div>
     {% else %}
         <p>No questions asked</p>
     {% endif %}
