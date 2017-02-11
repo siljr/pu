@@ -1,15 +1,17 @@
 from django.contrib.auth.models import User
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
 
 from questions.forms import QuestionForm
 
 from questions.models import Question
 
-
+@login_required(login_url='/login/')
 def index(request):
     return HttpResponse("Velkommen til qBot!")
 
+@login_required(login_url='/login/')
 def register_question(request):
     form = QuestionForm()
     if request.method == "POST":

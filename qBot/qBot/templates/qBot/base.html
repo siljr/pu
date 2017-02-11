@@ -13,28 +13,46 @@
 </head>
 
 <body>
+{#this is out navbar - do not touch#}
     <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container">
+        <div class="container-fluid">
 {#        when screen gets to narrow, use hamburger menu#}
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-3">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-{#            our logo#}
-          <a class="navbar-brand" id="logo" alt="Logo" href="/questions/">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-3">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+{#            our qBot logo#}
+            <a class="navbar-brand" id="logo" alt="Logo" href="/questions/">
                 <img {% load static %} src={% static 'qBot/images/logo.svg' %}>
             </a>
-        </div>
+            </div>
 
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="navbar-collapse-3">
-          <ul class="nav navbar-nav navbar-left">
-            <li><a href="/questions/">Home</a></li>
-            <li><a href="#">Profile</a></li>
-        </div>
+        {#if the user is not logged in, show a navbar with "Sign in" and "register"#}
+        {% if user.is_anonymous %}
+            <div class="collapse navbar-collapse" id="navbar-collapse-3">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/login">Sign in</a></li>
+                    <li><a href="/register">Register</a></li>
+                </ul>
+            </div>
+
+        {#if user is logged in, show navbar with other options#}
+        {% else %}
+            <div class="collapse navbar-collapse" id="navbar-collapse-3">
+                <ul class="nav navbar-nav navbar-left">
+                    <li><a href="/questions/">Home</a></li>
+                    <li><a href="#">Profile</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/logout">Log out</a></li>
+                </ul>
+            </div>
+
+        {% endif %}
+
       </div>
     </nav>
 
@@ -43,7 +61,7 @@
     {% block content %}
     {% endblock content %}
 
-
+    <script type ="text/javascript" src="http://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script type ="text/javascript" src="{% static 'qBot/scripts/bootstrap.min.js' %}"></script>
 </body>
 </html>
