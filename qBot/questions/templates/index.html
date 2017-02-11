@@ -5,7 +5,14 @@
         <div class="container">
             <div class="row">
                 {% for question in questions %}
-                    <div class="col-md-4">{{ question.title }} {{ question.body}}</div>
+                    <div class="col-md-4">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">{{ question.title }}</h3>
+                            </div>
+                            <div class="panel-body">{{ question.body}}</div>
+                        </div>
+                    </div>
                 {%  endfor %}
             </div>
         </div>
