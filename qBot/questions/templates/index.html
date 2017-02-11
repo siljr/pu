@@ -3,14 +3,11 @@
 {% block content %}
     {% if questions %}
         <div class="container">
-        <ul>
-            {% for question in questions %}
-                <li>
-                    {{ question.title }}
-                    {{ question.body}}
-                </li>
-            {%  endfor %}
-        </ul>
+            <div class="row">
+                {% for question in questions %}
+                    <div class="col-md-4">{{ question.title }} {{ question.body}}</div>
+                {%  endfor %}
+            </div>
         </div>
     {% else %}
         <p>No questions asked</p>
