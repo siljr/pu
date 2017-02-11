@@ -4,12 +4,15 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 
 from questions.forms import QuestionForm
-
 from questions.models import Question
+from .models import Question
 
 @login_required(login_url='/login/')
 def index(request):
-    return HttpResponse("Velkommen til qBot!")
+    # makes a dictionary containing all Question objects
+    context = {'questions': Question.objects.all()}
+    # always needs to have a request, a go to html page and a dictrionary
+    return render(request, 'index.html', context)
 
 @login_required(login_url='/login/')
 def register_question(request):
