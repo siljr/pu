@@ -16,19 +16,20 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
-
+from registrationApp import views as registration_views
 
 
 urlpatterns = [
-    # added by silje
+    # makes sure the url file from questions is added. Namespace allows us to call "questions:name"
     url(r'^questions/', include('questions.urls', namespace="questions")),
+
+    # adding all the urls from the qbot main app
     url(r'^login/$', auth_views.login, name='login'),
     url(r'^logout/$', auth_views.logout, {'next_page': 'login'}, name='logout'),
-    url(r'^register/', include('registrationApp.urls')),
 
-    # The url that shows the questions app
-    url(r'^createquestion/', include('questions.urls')),
+    # adding urls from the registrationApp
+    url(r'^register', registration_views.register_page, name='registerpage'),
 
-
+    # adding admin page (default)
     url(r'^admin/', admin.site.urls),
 ]
