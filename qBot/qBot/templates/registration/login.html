@@ -2,23 +2,25 @@
 
 
 {% block content %}
-    <div class="inputForm">
-        <h2>Login</h2>
-        <form method="post">
-            {% csrf_token %}
-            <div class="control-group">
-                <label class="control-label" for="username">Username</label>
-                <div class="controls">
-                    <input class="form-control" type="text" id="username" name="username"  placeholder="Username">
+    <div class="container">
+        <div class="inputForm">
+            <h2>Login</h2>
+            <form method="post">
+                {% csrf_token %}
+                <div class="control-group">
+                    <label class="control-label" for="username">Username</label>
+                    <div class="controls">
+                        <input class="form-control" type="text" id="username" name="username"  placeholder="Username">
+                    </div>
                 </div>
-            </div>
-            <div class="control-group">
-                <label class="control-label" for="password">Password</label>
-                <div class="controls">
-                    <input class="form-control" type="password" name="password" id="password" placeholder="Password">
+                <div class="control-group">
+                    <label class="control-label" for="password">Password</label>
+                    <div class="controls">
+                        <input class="form-control" type="password" name="password" id="password" placeholder="Password">
+                    </div>
                 </div>
-            </div>
-            <input class="btn btn-default" type="submit" value="Submit">
-        </form>
+                <input class="btn btn-default" type="submit" value="Submit">
+            </form>
+        </div>
     </div>
 {% endblock content %}
