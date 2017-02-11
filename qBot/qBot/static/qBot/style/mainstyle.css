@@ -17,3 +17,9 @@
 .vresize {
     resize: vertical;
 }
+
+#logo img {
+    width: 45px;
+    margin-top: -13px;
+
+}

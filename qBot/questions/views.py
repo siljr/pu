@@ -12,18 +12,20 @@ def index(request):
 
 def register_question(request):
     form = QuestionForm()
-    if request.method =="POST":
+    if request.method == "POST":
+        username = None
         form = QuestionForm(request.POST)
-        if form.is_valid():
-            title = form.cleaned_data['title']
-            body = form.cleaned_data['body']
-            username = form.cleaned_data['user']
+        if request.user.is_authenticated():
+            username = request.user.username
+            if form.is_valid():
+                title = form.cleaned_data['title']
+                body = form.cleaned_data['body']
 
-            user = User.objects.get(username=username)
-            Question.objects.create(title=title, body=body,user=user)
-        else:
-            form = QuestionForm()
+                user = User.objects.get(username=username)
 
-    return render(request, 'question_submission.html',{'form':form,})
+                Question.objects.create(title=title, body=body, user=user)
 
+            else:
+                form = QuestionForm()
 
+    return render(request, 'question_submission.html',{'form': form, })

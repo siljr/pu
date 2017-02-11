@@ -10,14 +10,14 @@ from questions.models import Question
 class QuestionCreateTestCase(TestCase):
     # sets up a "dummy database"
     def setUp(self):
-        User.objects.create(username="andrroy")
+        User.objects.create(username="silje")
 
 
     def test_register_question_view(self):
         client = Client()
         # sends a request with these data
         response = client.post(reverse('create_question'), {
-            'user': 'andrroy',
+            'user': 'silje',
             'title': 'dette er noe',
             'body': 'Dette er teksten',
         })
