@@ -16,11 +16,13 @@
 {#                            gets the text from the body of the question#}
                             <div class="panel-body">
                                 {{ question.body}}
-                                <button type="button" class="btn btn-default btn-lg">
+                            </div>
+                            <div class="panel-footer">
+                                <button type="button" class="btn btn-default btn">
                                     <span class="glyphicon glyphicon-chevron-up"></span>
                                 </button>
-                                {{ question.score }}
-                                <button type="button" class="btn btn-default btn-lg">
+                                {{ question.votes }}
+                                <button type="button" class="btn btn-default btn">
                                     <span class="glyphicon glyphicon-chevron-down"></span>
                                 </button>
                             </div>
