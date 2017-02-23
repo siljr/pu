@@ -12,6 +12,7 @@ def index(request):
     # always needs to have a request, a go to html page and a dictrionary
     return render(request, 'index.html', context)
 
+
 @login_required(login_url='/login/')
 def register_question(request):
     form = QuestionForm()
@@ -34,25 +35,25 @@ def register_question(request):
             else:
                 form = QuestionForm()
 
-    return render(request, 'question_submission.html',{'form': form, })
+    return render(request, 'question_submission.html',{'form': form,})
 
-# user must ble logged in to vote for question
-# @login_required(login_url='/login')
-# def upvote_question(self, user):
-#     try:
-#         self.post_votes.create(user=user, question=self, vote_type="up")
-#         self.votes += 1
-#         self.save()
-#     except:
-#         return 'already_downvoted'
-#     return redirect('/questions')
-#
-#
-# def downvote_question(self, user):
-#     try:
-#         self.post_votes.create(user=user, question=self, vote_type="down")
-#         self.votes -= 1
-#         self.save()
-#     except:
-#         return 'already_downvoted'
-#
+
+@login_required(login_url='/login/')
+def vote(request):
+    user = request.user
+    if request.method == "GET":
+        print('get')
+        question_id = request.GET.get('question', '')
+        question = Question.objects.get(id=question_id)
+
+        if request.GET.get('votetype', '') == 'up':
+            result = question.upvote_question(user)
+            print('upvoted')
+        elif request.GET.get('votetype', '') == 'down':
+            result = question.downvote_question(user)
+            print('downvoted')
+        else:
+            print('ingen av delene')
+    else:
+        print('did not get')
+    return redirect('/questions')

@@ -30,9 +30,10 @@ class Question(models.Model):
         self.votes -= 1
         self.save()
 
+
 class UserVotes(models.Model):
     user = models.ForeignKey(User, related_name="user_votes")
-    question = models.ForeignKey(Question, related_name="post_votes")
+    question = models.ForeignKey(Question, related_name="question_votes")
     vote_type = models.CharField(max_length=16)
 
     class Meta:

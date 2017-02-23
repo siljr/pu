@@ -18,14 +18,13 @@
                                 {{ question.body}}
                             </div>
                             <div class="panel-footer">
-                                <button type="button" class="btn btn-default btn">
+                                <a href="/questions/vote?question={{ question.id }}&votetype=up" type="button" class="btn btn-default btn">
                                     <span class="glyphicon glyphicon-chevron-up"></span>
-                                </button>
+                                </a>
                                 {{ question.votes }}
-                                <button type="button" class="btn btn-default btn">
-
+                                <a href="/questions/vote?question={{ question.id }}&votetype=down" type="button" class="btn btn-default btn">
                                     <span class="glyphicon glyphicon-chevron-down"></span>
-                                </button>
+                                </a>
                             </div>
                         </div>
                     </div>
