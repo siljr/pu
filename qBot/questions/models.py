@@ -12,7 +12,7 @@ class Question(models.Model):
     created_at = models.DateTimeField(null=True, blank=True)
     # sets a connection to a user
     user = models.ForeignKey(User, related_name='is_made_by')
-    votes = models.ManyToManyField(User, related_name='voted_for_question')
+    votes = models.IntegerField(max_length=8)
 
     # adds a timestamp to the question posted
     def save(self, *args, **kwargs):

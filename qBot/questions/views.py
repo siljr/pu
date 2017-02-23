@@ -36,19 +36,23 @@ def register_question(request):
 
     return render(request, 'question_submission.html',{'form': form, })
 
-# @login_required(login_url='/login')
-# def upvote_question(request):
-#     username = None
-#     if request.method == "POST":
-#         username = request.user.username
-#         question = request.question.id
-#
-#         # pseudokode
-#
-#
+# user must ble logged in to vote for question
+@login_required(login_url='/login')
+def upvote_question(self, user):
+    try:
+        self.post_votes.create(user=user, question=self, vote_type="up")
+        self.votes += 1
+        self.save()
+    except:
+        return 'already_downvoted'
+    return redirect('/questions')
 
 
-
-
-
+def downvote_question(self, user):
+    try:
+        self.post_votes.create(user=user, question=self, vote_type="down")
+        self.votes -= 1
+        self.save()
+    except:
+        return 'already_downvoted'
     return redirect('/questions')
