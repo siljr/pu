@@ -2,6 +2,8 @@ from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 
+from django.views import generic
+
 from questions.forms import QuestionForm
 from .models import Question
 
@@ -50,5 +52,13 @@ def register_question(request):
 
 
 
-
     return redirect('/questions')
+
+
+class MyqView(generic.ListView):
+    template_name = 'my_questions.html'
+    context_object_name = 'my_questions'
+
+    @login_required(login_url='/login/')
+    def get_queryset(self):
+        return Question.objects.filter(user=User.get_user())

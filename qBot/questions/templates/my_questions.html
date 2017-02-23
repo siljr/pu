@@ -1,0 +1,36 @@
+{% extends "qBot/base.html" %}
+
+{% block content %}
+    {% if my_questions %}
+        <div class="container">
+            <div class="row">
+                {% for question in my_questions %}
+{#                    makes sure there is a column view#}
+                    <div class="col-md-4">
+{#                    panel is a standard bootstrap box with a grey header #}
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+{#                                get the text from the title from the object #}
+                                <h3 class="panel-title">{{ question.title }}</h3>
+                            </div>
+{#                            gets the text from the body of the question#}
+                            <div class="panel-body">
+                                {{ question.body}}
+                                <button type="button" class="btn btn-default btn-lg">
+                                    <span class="glyphicon glyphicon-chevron-up"></span>
+                                </button>
+                                {{ question.score }}
+                                <button type="button" class="btn btn-default btn-lg">
+                                    <span class="glyphicon glyphicon-chevron-down"></span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                {%  endfor %}
+            </div>
+        </div>
+    {% else %}
+        <p>No questions asked</p>
+    {% endif %}
+
+{% endblock content %}
