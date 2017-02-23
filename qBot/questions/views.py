@@ -35,3 +35,20 @@ def register_question(request):
                 form = QuestionForm()
 
     return render(request, 'question_submission.html',{'form': form, })
+
+# @login_required(login_url='/login')
+# def upvote_question(request):
+#     username = None
+#     if request.method == "POST":
+#         username = request.user.username
+#         question = request.question.id
+#
+#         # pseudokode
+#
+#
+
+
+
+
+
+    return redirect('/questions')
