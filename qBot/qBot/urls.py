@@ -17,11 +17,13 @@ from django.conf.urls import include, url
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from registrationApp import views as registration_views
-
+from questions import views as question_views
 
 urlpatterns = [
     # makes sure the url file from questions is added. Namespace allows us to call "questions:name"
     url(r'^questions/', include('questions.urls', namespace="questions")),
+
+    url(r'^$', question_views.index, name='index'),
 
     # adding all the urls from the qbot main app
     url(r'^login/$', auth_views.login, name='login'),
