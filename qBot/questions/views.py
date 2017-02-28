@@ -54,11 +54,9 @@ def register_question(request):
 
     return redirect('/questions')
 
-
 class MyqView(generic.ListView):
     template_name = 'my_questions.html'
     context_object_name = 'my_questions'
 
-    @login_required(login_url='/login/')
     def get_queryset(self):
-        return Question.objects.filter(user=User.get_user())
+        return Question.objects.filter(user = self.request.user)
