@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 
 from django.views import generic
+from django.db.models import Q
 
 from questions.forms import QuestionForm
 from .models import Question
@@ -11,6 +12,13 @@ from .models import Question
 def index(request):
     # makes a dictionary containing all Question objects
     context = {'questions': Question.objects.all()}
+
+    #search mechanism with Q lookups
+    query = request.GET.get("q")
+    if query:
+        context = {'questions': Question.objects.filter(
+            Q(title__contains=query)|
+                   Q(body__contains=query)).distinct()}
     # always needs to have a request, a go to html page and a dictrionary
     return render(request, 'index.html', context)
 
