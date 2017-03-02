@@ -11,7 +11,8 @@ from .models import Question
 @login_required(login_url='/login/')
 def index(request):
     # makes a dictionary containing all Question objects
-    context = {'questions': Question.objects.all()}
+    # tabs:newest as default setting
+    context = {'questions': Question.objects.all(), 'tabs':'newest'}
 
     #search mechanism with Q lookups
     query = request.GET.get("q")
@@ -20,6 +21,23 @@ def index(request):
             Q(title__contains=query)|
                    Q(body__contains=query)).distinct()}
     # always needs to have a request, a go to html page and a dictrionary
+    return render(request, 'index.html', context)
+
+#Views for spørsmål sortert etter nyest og eldst
+def newest(request):
+    # makes a dictionary containing all Question objects
+    context = {'questions': Question.objects.all().order_by("created_at"), 'tabs':'newest'}
+    return render(request, 'index.html', context)
+
+def oldest(request):
+    context = {'questions': reversed(Question.objects.all().order_by("created_at")), 'tabs':'oldest'}
+    return render(request, 'index.html', context)
+
+def most_votes(request):
+    # for now:
+    context = {'questions': Question.objects.all(), 'tabs': 'most_votes'}
+    """for later:
+    context = {'questions': Question.objects.all().order_by("votes"), 'tabs': 'most_votes'} """
     return render(request, 'index.html', context)
 
 @login_required(login_url='/login/')
