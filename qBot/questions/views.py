@@ -46,15 +46,6 @@ def register_question(request):
 
     return render(request, 'question_submission.html',{'form': form, })
 
-@login_required(login_url='/login/')
-def most_upvotes(request):
-    # makes a dictionary containing all Question objects
-    questions = Question.objects.all()
-
-    context = {'questions': questions}
-
-    return render(request, 'index.html', context)
-
 # @login_required(login_url='/login')
 # def upvote_question(request):
 #     username = None
