@@ -8,7 +8,7 @@
 {#                    makes sure there is a column view#}
                     <div class="col-md-4">
 {#                    panel is a standard bootstrap box with a grey header #}
-                        <div class="panel panel-default">
+                        <div class="panel panel-info">
                             <div class="panel-heading">
 {#                                get the text from the title from the object #}
                                 <h3 class="panel-title">{{ question.title }}</h3>
@@ -18,13 +18,11 @@
                                 {{ question.body}}
                             </div>
                             <div class="panel-footer">
+                                <b>I was wondering the same</b>
                                 <a href="/questions/vote?question={{ question.id }}&votetype=up" type="button" class="btn btn-default btn">
-                                    <span class="glyphicon glyphicon-chevron-up"></span>
+                                    <span class="glyphicon glyphicon-ok"></span>
                                 </a>
                                 {{ question.votes }}
-                                <a href="/questions/vote?question={{ question.id }}&votetype=down" type="button" class="btn btn-default btn">
-                                    <span class="glyphicon glyphicon-chevron-down"></span>
-                                </a>
                             </div>
                         </div>
                     </div>
