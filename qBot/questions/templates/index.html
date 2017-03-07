@@ -1,14 +1,7 @@
-{% extends "qBot/base.html" %}
+{% extends  "qBot/qsort.html"  %}
 
-{% block content %}
-    </br>
-    </br>
-    </br>
-    <ul class="nav nav-tabs">
-        <li role="presentation" {% if tabs == 'newest' %}class="active" {% endif %}><a href="{% url 'questions:newest' %}">Newest</a></li>
-        <li role="presentation" {% if tabs == 'oldest' %}class="active" {% endif %}><a href="{% url 'questions:oldest' %}">Oldest</a></li>
-        <li role="presentation" {% if tabs == 'most_votes' %}class="active" {% endif %}><a href="{% url 'questions:most_votes' %}">Most votes</a></li>
-    </ul>
+{% block navtabs %}
+
     {% if questions %}
         <div class="container">
             <div class="row">
@@ -41,4 +34,4 @@
         <p>No questions asked</p>
     {% endif %}
 
-{% endblock content %}
+{% endblock navtabs %}
