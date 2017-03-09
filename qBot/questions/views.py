@@ -86,7 +86,7 @@ def register_question(request):
 def myquestions(request):
     # makes a dictionary containing all Question objects
     # tabs:newest as default setting
-    context = {'questions': Question.objects.filter(user = request.user), 'tabs':'newest'}
+    context = {'questions': Question.objects.filter(user = request.user), 'tabs':'newest', 'myQ':'true'}
 
     #search mechanism with Q lookups
     query = request.GET.get("q")
@@ -100,7 +100,7 @@ def myquestions(request):
 #Views for spørsmål sortert etter nyest og eldst
 def myQnewest(request):
     # makes a dictionary containing all Question objects
-    context = {'questions': Question.objects.filter(user=request.user), 'tabs': 'newest'}
+    context = {'questions': reversed(Question.objects.filter(user = request.user)), 'tabs': 'newest', 'myQ':'true'}
     return render(request, 'index.html', context)
 
 def myQoldest(request):
