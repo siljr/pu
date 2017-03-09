@@ -25,7 +25,7 @@ urlpatterns = [
     url(r'^questions/', include('questions.urls', namespace="questions")),
 
     #myquestions
-    url(r'^myquestions/$', views.MyqView.as_view(), name="my_questions"),
+    #url(r'^myquestions/$', views.MyqView.as_view(), name="my_questions"),
 
     # adding all the urls from the qbot main app
     url(r'^login/$', auth_views.login, name='login'),

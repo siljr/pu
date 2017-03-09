@@ -12,7 +12,7 @@ from .models import Question
 def index(request):
     # makes a dictionary containing all Question objects
     # tabs:newest as default setting
-    context = {'questions': Question.objects.all(), 'tabs':'newest'}
+    context = {'questions': reversed(Question.objects.all()), 'tabs':'newest'}
 
     #search mechanism with Q lookups
     query = request.GET.get("q")
@@ -26,11 +26,11 @@ def index(request):
 #Views for spørsmål sortert etter nyest og eldst
 def newest(request):
     # makes a dictionary containing all Question objects
-    context = {'questions': Question.objects.all().order_by("created_at"), 'tabs':'newest'}
+    context = {'questions': reversed(Question.objects.all().order_by("created_at")), 'tabs':'newest'}
     return render(request, 'index.html', context)
 
 def oldest(request):
-    context = {'questions': reversed(Question.objects.all().order_by("created_at")), 'tabs':'oldest'}
+    context = {'questions': Question.objects.all().order_by("created_at"), 'tabs':'oldest'}
     return render(request, 'index.html', context)
 
 def most_votes(request):
@@ -78,11 +78,38 @@ def register_question(request):
 
 
 
-    return redirect('/questions')
+#    return redirect('/questions')
 
-class MyqView(generic.ListView):
-    template_name = 'my_questions.html'
-    context_object_name = 'my_questions'
 
-    def get_queryset(self):
-        return Question.objects.filter(user = self.request.user)
+
+@login_required(login_url='/login/')
+def myquestions(request):
+    # makes a dictionary containing all Question objects
+    # tabs:newest as default setting
+    context = {'questions': Question.objects.filter(user = request.user), 'tabs':'newest'}
+
+    #search mechanism with Q lookups
+    query = request.GET.get("q")
+    if query:
+        context = {'questions': Question.objects.filter(
+            Q(title__contains=query)|
+                   Q(body__contains=query)).distinct()}
+    # always needs to have a request, a go to html page and a dictrionary
+    return render(request, 'index.html', context)
+
+#Views for spørsmål sortert etter nyest og eldst
+def myQnewest(request):
+    # makes a dictionary containing all Question objects
+    context = {'questions': Question.objects.filter(user=request.user), 'tabs': 'newest'}
+    return render(request, 'index.html', context)
+
+def myQoldest(request):
+    context = {'questions': Question.objects.filter(user=request.user).order_by("created_at"), 'tabs':'oldest', 'myQ':'true'}
+    return render(request, 'index.html', context)
+
+def myQmost_votes(request):
+    # for now:
+    context = {'questions': Question.objects.filter(user=request.user), 'tabs': 'most_votes', 'myQ':'true'}
+    """for later:
+    context = {'questions': Question.objects.all().order_by("votes"), 'tabs': 'most_votes'} """
+    return render(request, 'index.html', context)
