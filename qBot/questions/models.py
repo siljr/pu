@@ -14,6 +14,8 @@ class Question(models.Model):
     user = models.ForeignKey(User, related_name='is_made_by')
     votes = models.IntegerField(default = 0)
 
+    user_votes = []
+
     # adds a timestamp to the question posted
     def save(self, *args, **kwargs):
         if self.created_at is None:
@@ -21,14 +23,29 @@ class Question(models.Model):
         super().save(*args, **kwargs)
 
     def upvote_question(self, user):
-        self.question_votes.create(user=user, question=self, vote_type="up")
+        #self.question_votes.create(user=user, question=self, vote_type="up")
         self.votes += 1
+        self.add_user(user)
         self.save()
 
     def downvote_question(self, user):
-        self.question_votes.create(user=user, question=self, vote_type="down")
         self.votes -= 1
+        self.remove_user(user)
         self.save()
+
+    def add_user(self, user):
+        self.user_votes.append(user)
+
+    def remove_user(self, user):
+        self.user_votes.remove(user)
+
+    def is_in_user_votes(self, user):
+        if user in self.user_votes:
+            return True
+        else:
+            return False
+
+
 
 
 class UserVotes(models.Model):
@@ -38,3 +55,7 @@ class UserVotes(models.Model):
 
     class Meta:
         unique_together = ('user', 'question', 'vote_type')
+
+
+
+#<a href="/questions/vote?question={{ question.id }}&votetype=up" id ="approve_button" type="button" {% if active_button == "True"%} class="btn btn-default btn- active" {% else%} class="btn btn-default btn" {% endif %} >

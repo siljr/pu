@@ -19,9 +19,11 @@
                             </div>
                             <div class="panel-footer">
                                 <b>I was wondering the same</b>
-                                <a href="/questions/vote?question={{ question.id }}&votetype=up" type="button" class="btn btn-default btn">
+
+                                <a href="/questions/vote?question={{ question.id }}&votetype=up" id ="approve_button" type="button" class="btn btn-default btn">
                                     <span class="glyphicon glyphicon-ok"></span>
                                 </a>
+
                                 {{ question.votes }}
                             </div>
                         </div>
@@ -33,4 +35,8 @@
         <p>No questions asked</p>
     {% endif %}
 
+
+
 {% endblock content %}
+
+#

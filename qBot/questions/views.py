@@ -38,22 +38,30 @@ def register_question(request):
     return render(request, 'question_submission.html',{'form': form,})
 
 
+
+
 @login_required(login_url='/login/')
 def vote(request):
+
     user = request.user
     if request.method == "GET":
-        print('get')
+        print('**********')
         question_id = request.GET.get('question', '')
         question = Question.objects.get(id=question_id)
-
         if request.GET.get('votetype', '') == 'up':
-            result = question.upvote_question(user)
-            print('upvoted')
-        elif request.GET.get('votetype', '') == 'down':
-            result = question.downvote_question(user)
-            print('downvoted')
+            if question.is_in_user_votes(user):
+                question.downvote_question(user)
+                print("QuestionID: " + question_id + " " + str(question.user_votes))
+                print("Downvoted")
+
+            else:
+                question.upvote_question(user)
+                print("QuestionID: " + question_id + " " + str(question.user_votes))
+                print('upvoted')
+                #return render(request, "index.html", {'questions': Question.objects.all(), "href" :"/questions/vote?question={{ "+str(question.id)+" }}&votetype=up", 'active_button': "True"})
         else:
             print('ingen av delene')
     else:
         print('did not get')
     return redirect('/questions')
+
