@@ -59,7 +59,7 @@ def vote(request):
             else:
                 question.upvote_question(user)
                 print('upvoted')
-                return render(request, "index.html", {'questions': Question.objects.all(), "href" :"/questions/vote?question={{ "+str(question.id)+" }}&votetype=up", 'this.queston.active_button': "True", 'id':question_id})
+                #return render(request, "index.html", {'questions': Question.objects.all(), "href" :"/questions/vote?question={{ "+str(question.id)+" }}&votetype=up", 'this.queston.active_button': "True", 'id':question_id})
         else:
             print('ingen av delene')
     else:
