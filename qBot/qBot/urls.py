@@ -18,6 +18,8 @@ from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from questions import views
 from registrationApp import views as registration_views
+from questions import views as question_views
+
 
 
 urlpatterns = [
@@ -26,6 +28,8 @@ urlpatterns = [
 
     #myquestions
     url(r'^myquestions/$', views.MyqView.as_view(), name="my_questions"),
+
+    url(r'^$', question_views.index, name='index'),
 
     # adding all the urls from the qbot main app
     url(r'^login/$', auth_views.login, name='login'),
