@@ -21,7 +21,7 @@ class Question(models.Model):
             self.created_at = timezone.now()
         super().save(*args, **kwargs)
 
-class Answer(models.Model):
+"""class Answer(models.Model):
     body = models.TextField()
     created_at = models.DateTimeField(null=True, blank=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, default = 1)
@@ -31,4 +31,4 @@ class Answer(models.Model):
     def save(self, *args, **kwargs):
         if self.created_at is None:
             self.created_at = timezone.now()
-        super().save(*args, **kwargs)
+        super().save(*args, **kwargs)"""
