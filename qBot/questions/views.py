@@ -45,20 +45,21 @@ def vote(request):
 
     user = request.user
     if request.method == "GET":
-        print('**********')
+
         question_id = request.GET.get('question', '')
         question = Question.objects.get(id=question_id)
         if request.GET.get('votetype', '') == 'up':
+            print('**********')
+            print(question.user_votes)
+            print('**********')
             if question.is_in_user_votes(user):
                 question.downvote_question(user)
-                print("QuestionID: " + question_id + " " + str(question.user_votes))
                 print("Downvoted")
 
             else:
                 question.upvote_question(user)
-                print("QuestionID: " + question_id + " " + str(question.user_votes))
                 print('upvoted')
-                #return render(request, "index.html", {'questions': Question.objects.all(), "href" :"/questions/vote?question={{ "+str(question.id)+" }}&votetype=up", 'active_button': "True"})
+                return render(request, "index.html", {'questions': Question.objects.all(), "href" :"/questions/vote?question={{ "+str(question.id)+" }}&votetype=up", 'this.queston.active_button': "True", 'id':question_id})
         else:
             print('ingen av delene')
     else:

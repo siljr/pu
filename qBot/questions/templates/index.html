@@ -9,7 +9,7 @@
                     <div class="col-md-4">
 {#                    panel is a standard bootstrap box with a grey header #}
                         <div class="panel panel-info">
-                            <div class="panel-heading">
+                            <div class="panel-heading" >
 {#                                get the text from the title from the object #}
                                 <h3 class="panel-title">{{ question.title }}</h3>
                             </div>
@@ -20,7 +20,7 @@
                             <div class="panel-footer">
                                 <b>I was wondering the same</b>
 
-                                <a href="/questions/vote?question={{ question.id }}&votetype=up" id ="approve_button" type="button" class="btn btn-default btn">
+                                <a href="/questions/vote?question={{ question.id }}&votetype=up" type="button" id = question.id active_button = "False" {% if active_button == "True" %} class="btn btn-default btn- active" {% else %} class="btn btn-default btn" {% endif %}>
                                     <span class="glyphicon glyphicon-ok"></span>
                                 </a>
 
