@@ -1,0 +1,14 @@
+{% extends "qBot/base.html" %}
+
+{% block content %}
+    </br>
+    </br>
+    </br>
+    <ul class="nav nav-tabs">
+        <li role="presentation" {% if tabs == 'newest' %}class="active" {% endif %}><a {% if myQ == 'true' %} href="{% url 'questions:myQnewest' %}"{% else %}href="{% url 'questions:newest' %}"{% endif %}>Newest</a></li>
+        <li role="presentation" {% if tabs == 'oldest' %}class="active" {% endif %}><a {% if myQ == 'true' %} href="{% url 'questions:myQoldest' %}"{% else %}href="{% url 'questions:oldest' %}"{% endif %} >Oldest</a></li>
+        <li role="presentation" {% if tabs == 'most_votes' %}class="active" {% endif %}><a {% if myQ == 'true' %} href="{% url 'questions:myQmost_votes' %}"{% else %}href="{% url 'questions:most_votes' %}"{% endif %}>Most votes</a></li>
+    </ul>
+{% block navtabs %}
+{% endblock navtabs%}
+{% endblock content %}

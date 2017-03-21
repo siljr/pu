@@ -1,6 +1,7 @@
-{% extends "qBot/base.html" %}
+{% extends  "qBot/qsort.html"  %}
 
-{% block content %}
+{% block navtabs %}
+
     {% if questions %}
         <div class="container">
             <div class="row">
@@ -39,6 +40,8 @@
         <p>No questions asked</p>
     {% endif %}
 
+<!--Usikker på om vi trenger denne når vi har navtabs-->
+<!--{% endblock content %}-->
 
+{% endblock navtabs %}
 
-{% endblock content %}

@@ -23,8 +23,10 @@ from questions import views as question_views
 urlpatterns = [
     # makes sure the url file from questions is added. Namespace allows us to call "questions:name"
     url(r'^questions/', include('questions.urls', namespace="questions")),
-
     url(r'^$', question_views.index, name='index'),
+
+    #myquestions
+    #url(r'^myquestions/$', views.MyqView.as_view(), name="my_questions"),
 
     # adding all the urls from the qbot main app
     url(r'^login/$', auth_views.login, name='login'),

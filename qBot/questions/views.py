@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 
 from django.views import generic
+from django.db.models import Q
 
 from questions.forms import QuestionForm, AnswerForm
 from .models import Question, Answer
@@ -11,8 +12,33 @@ from .models import Question, Answer
 @login_required(login_url='/login/')
 def index(request):
     # makes a dictionary containing all Question objects
-    context = {'questions': Question.objects.all()}
-    # always needs to have a request, a go to html page and a dictionary
+    # tabs:newest as default setting
+    context = {'questions': reversed(Question.objects.all()), 'tabs':'newest'}
+
+    #search mechanism with Q lookups
+    query = request.GET.get("q")
+    if query:
+        context = {'questions': Question.objects.filter(
+            Q(title__contains=query)|
+                   Q(body__contains=query)).distinct()}
+    # always needs to have a request, a go to html page and a dictrionary
+    return render(request, 'index.html', context)
+
+#Views for spørsmål sortert etter nyest og eldst
+def newest(request):
+    # makes a dictionary containing all Question objects
+    context = {'questions': reversed(Question.objects.all().order_by("created_at")), 'tabs':'newest'}
+    return render(request, 'index.html', context)
+
+def oldest(request):
+    context = {'questions': Question.objects.all().order_by("created_at"), 'tabs':'oldest'}
+    return render(request, 'index.html', context)
+
+def most_votes(request):
+    # for now:
+    context = {'questions': Question.objects.all(), 'tabs': 'most_votes'}
+    """for later:
+    context = {'questions': Question.objects.all().order_by("votes"), 'tabs': 'most_votes'} """
     return render(request, 'index.html', context)
 
 
@@ -66,13 +92,6 @@ def vote(request):
     return redirect('/questions')
 
 
-class MyqView(generic.ListView):
-    template_name = 'my_questions.html'
-    context_object_name = 'my_questions'
-
-    def get_queryset(self):
-        return Question.objects.filter(user = self.request.user)
-
 @login_required(login_url='/login/')
 def answers(request, question_id):
     # Could possibly use get_object_or_404 here
@@ -99,4 +118,40 @@ def answers(request, question_id):
 
     context = {'question': question, 'answers': answers}  # Including one question and zero or more answers
     return render(request, 'answers.html', context, {'form': form, })
+
+#    return redirect('/questions')
+
+
+
+@login_required(login_url='/login/')
+def myquestions(request):
+    # makes a dictionary containing all Question objects
+    # tabs:newest as default setting
+    context = {'questions': Question.objects.filter(user = request.user), 'tabs':'newest', 'myQ':'true'}
+
+    #search mechanism with Q lookups
+    query = request.GET.get("q")
+    if query:
+        context = {'questions': Question.objects.filter(
+            Q(title__contains=query)|
+                   Q(body__contains=query)).distinct()}
+    # always needs to have a request, a go to html page and a dictrionary
+    return render(request, 'index.html', context)
+
+#Views for spørsmål sortert etter nyest og eldst
+def myQnewest(request):
+    # makes a dictionary containing all Question objects
+    context = {'questions': reversed(Question.objects.filter(user = request.user)), 'tabs': 'newest', 'myQ':'true'}
+    return render(request, 'index.html', context)
+
+def myQoldest(request):
+    context = {'questions': Question.objects.filter(user=request.user).order_by("created_at"), 'tabs':'oldest', 'myQ':'true'}
+    return render(request, 'index.html', context)
+
+def myQmost_votes(request):
+    # for now:
+    context = {'questions': Question.objects.filter(user=request.user), 'tabs': 'most_votes', 'myQ':'true'}
+    """for later:
+    context = {'questions': Question.objects.all().order_by("votes"), 'tabs': 'most_votes'} """
+    return render(request, 'index.html', context)
 
