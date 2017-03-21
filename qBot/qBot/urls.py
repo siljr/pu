@@ -20,14 +20,9 @@ from questions import views
 from registrationApp import views as registration_views
 from questions import views as question_views
 
-
-
 urlpatterns = [
     # makes sure the url file from questions is added. Namespace allows us to call "questions:name"
     url(r'^questions/', include('questions.urls', namespace="questions")),
-
-    #myquestions
-    url(r'^myquestions/$', views.MyqView.as_view(), name="my_questions"),
 
     url(r'^$', question_views.index, name='index'),
 

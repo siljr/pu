@@ -14,6 +14,7 @@ def index(request):
     # always needs to have a request, a go to html page and a dictrionary
     return render(request, 'index.html', context)
 
+
 @login_required(login_url='/login/')
 def register_question(request):
     form = QuestionForm()
@@ -36,27 +37,32 @@ def register_question(request):
             else:
                 form = QuestionForm()
 
-    return render(request, 'question_submission.html',{'form': form, })
-
-# @login_required(login_url='/login')
-# def upvote_question(request):
-#     username = None
-#     if request.method == "POST":
-#         username = request.user.username
-#         question = request.question.id
-#
-#         # pseudokode
-#
-#
+    return render(request, 'question_submission.html',{'form': form,})
 
 
 
 
+@login_required(login_url='/login/')
+def vote(request):
+    user = request.user
+    if request.method == "GET":
+        question_id = request.GET.get('question', '')
+        question = Question.objects.get(id=question_id)
+        if request.GET.get('votetype', '') == 'up':
+            print('**********')
+            print(question.user_votes)
+            print('**********')
+            if question.is_in_user_votes(user):
+                question.downvote_question(user)
+                print("Downvoted")
+
+            else:
+                question.upvote_question(user)
+                print('upvoted')
+                #return render(request, "index.html", {'questions': Question.objects.all(), "href" :"/questions/vote?question={{ "+str(question.id)+" }}&votetype=up", 'this.queston.active_button': "True", 'id':question_id})
+        else:
+            print('ingen av delene')
+    else:
+        print('did not get')
     return redirect('/questions')
 
-class MyqView(generic.ListView):
-    template_name = 'my_questions.html'
-    context_object_name = 'my_questions'
-
-    def get_queryset(self):
-        return Question.objects.filter(user = self.request.user)
