@@ -58,8 +58,8 @@ class QuestionLoginTestCase(TestCase):
 
 
 class QuestionsCreateTestCase(TestCase):
-    # tests if questions page is empty
-    def test_empty_questions_page(self):
+    # setup a user
+    def setUp(self):
         # create user with username test
         self.client.post('/register/',
                          {'username': 'test', 'email': 'test@test.no', 'password1': 'test',
@@ -67,7 +67,24 @@ class QuestionsCreateTestCase(TestCase):
 
         # login with username test
         self.client.login(username="test", password="test")
+
+    # tests if questions page is empty
+    def test_empty_questions_page(self):
+
         response = self.client.get(reverse('questions:index'), follow=True)
 
-        #print(response.context["questions"])
-        t = response.templates
+        # print(response.context["questions"])
+
+        # check if index.html is in the list of used templates
+        self.assertTemplateUsed(response, 'index.html')
+
+    def test_add_question(self):
+        # Create question objects
+        Question.objects.create(title = "tittel", body = "ipsum lorem")
+        Question.objects.create(title="tittel2", body="ipsum lorem2")
+
+        # tests to see if title and body is correct
+        q1 = Question.objects.get(title = "tittel")
+        self.assertEqual(q1.body, "ipsum lorem")
+        q2 = Question.objects.get(title = "tittel2")
+        self.assertEqual(q2.body, "ipsum lorem2")
