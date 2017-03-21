@@ -19,12 +19,16 @@
                             </div>
                             <div class="panel-footer">
                                 <b>I was wondering the same</b>
-
                                 <a href="/questions/vote?question={{ question.id }}&votetype=up" type="button" class="btn btn-default btn">
                                     <span class="glyphicon glyphicon-ok"></span>
                                 </a>
-
                                 {{ question.votes }}
+                                {# Link to answers below #}
+                                {% if question.answer_to.count %}
+                                    <a href="/questions/{{ question.id }}">{{ question.answer_to.count }} answer(s) so far! </a>
+                                {% else %}
+                                    <a href="/questions/{{ question.id }}"> Be the first to answer! </a>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
@@ -38,5 +42,3 @@
 
 
 {% endblock content %}
-
-#

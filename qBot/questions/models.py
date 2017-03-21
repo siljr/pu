@@ -62,7 +62,13 @@ class Question(models.Model):
         return json.dumps(input)
 
 
-
+class Answer(models.Model):
+    body = models.TextField()
+    created_at = models.DateTimeField(null=True, blank=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, default=1)
+    # votes = models.IntegerField(default=0)
+    # voters = models.ManyToManyField(User,related_name='voted_for_question')
+    answer_to = models.ForeignKey(Question, related_name='answer_to')
 
 
 class UserVotes(models.Model):
