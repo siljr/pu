@@ -13,7 +13,8 @@ class Question(models.Model):
     created_at = models.DateTimeField(null=True, blank=True)
     # sets a connection to a user
     user = models.ForeignKey(settings.AUTH_USER_MODEL, default= 1)
-    votes = models.ManyToManyField(User, related_name='voted_for_question')
+    #votes = models.ManyToManyField(User, related_name='voted_for_question', default=user)
+    votes = models.IntegerField(default=0)
 
     # adds a timestamp to the question posted
     def save(self, *args, **kwargs):
@@ -21,14 +22,17 @@ class Question(models.Model):
             self.created_at = timezone.now()
         super().save(*args, **kwargs)
 
-"""class Answer(models.Model):
+class Answer(models.Model):
+
     body = models.TextField()
     created_at = models.DateTimeField(null=True, blank=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, default = 1)
-    votes = models.ManyToManyField(User, related_name='voted_for_question')
+    #votes = models.IntegerField(default=0)
+    #voters = models.ManyToManyField(User,related_name='voted_for_question')
+    answer_to = models.ForeignKey(Question, related_name='answer_to')
 
     # adds a timestamp to the question posted
     def save(self, *args, **kwargs):
         if self.created_at is None:
             self.created_at = timezone.now()
-        super().save(*args, **kwargs)"""
+        super().save(*args, **kwargs)

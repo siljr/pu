@@ -23,6 +23,14 @@
                                 <button type="button" class="btn btn-default btn-lg">
                                     <span class="glyphicon glyphicon-chevron-down"></span>
                                 </button>
+                                <br>
+                                {# Link to answers below #}
+                                {% if question.answer_to.count %}
+                                    <a href="/questions/{{ question.id }}">{{ question.answer_to.count }} answer(s) so far! </a>
+                                {% else %}
+                                    <a href="/questions/{{ question.id }}"> Be the first to answer! </a>
+                                {% endif %}
+
                             </div>
                         </div>
                     </div>
