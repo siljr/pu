@@ -102,4 +102,4 @@ class QuestionsCreateTestCase(TestCase):
 
     def test_question_object(self):
         q1 = Question.objects.get(title = "tittel")
-        self.assertTrue(q1.user, "true")
+        self.assertEqual(q1.user.__str__(), "test")
