@@ -24,6 +24,7 @@
                                     <span class="glyphicon glyphicon-ok"></span>
                                 </a>
                                 {{ question.votes }}
+                                <br>
                                 {# Link to answers below #}
                                 {% if question.answer_to.count %}
                                     <a href="/questions/{{ question.id }}">{{ question.answer_to.count }} answer(s) so far! </a>
