@@ -96,7 +96,6 @@ def vote(request):
 def answers(request, question_id):
     # Could possibly use get_object_or_404 here
     question = Question.objects.get(pk = question_id)
-    answers = reversed(Answer.objects.filter(answer_to=question).order_by('created_at'))
 
     form = AnswerForm()
     if request.method == "POST":
@@ -116,6 +115,7 @@ def answers(request, question_id):
             else:
                 form = AnswerForm()
 
+    answers = reversed(Answer.objects.filter(answer_to=question).order_by('created_at'))
     context = {'question': question, 'answers': answers}  # Including one question and zero or more answers
     return render(request, 'answers.html', context, {'form': form, })
 
