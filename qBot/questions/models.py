@@ -70,6 +70,12 @@ class Answer(models.Model):
     # voters = models.ManyToManyField(User,related_name='voted_for_question')
     answer_to = models.ForeignKey(Question, related_name='answer_to')
 
+    # adds a timestamp to the question posted
+    def save(self, *args, **kwargs):
+        if self.created_at is None:
+            self.created_at = timezone.now()
+        super().save(*args, **kwargs)
+
 
 class UserVotes(models.Model):
     user = models.ForeignKey(User, related_name="user_votes")
