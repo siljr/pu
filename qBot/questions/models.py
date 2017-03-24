@@ -14,7 +14,8 @@ class Question(models.Model):
     body = models.TextField()
     created_at = models.DateTimeField(null=True, blank=True)
     # sets a connection to a user
-    user = models.ForeignKey(User, related_name='is_made_by')
+    # user = models.ForeignKey(User, related_name='is_made_by')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, default=1, related_name='is_made_by')
     votes = models.IntegerField(default = 0)
     user_votes = models.TextField(editable=True, default='[]')  # JSON-text, works as a list of user in string-format
 
