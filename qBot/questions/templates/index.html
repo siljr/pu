@@ -1,4 +1,5 @@
 {% extends  "qBot/qsort.html"  %}
+{% load readmore %}
 
 {% block navtabs %}
 
@@ -16,7 +17,7 @@
                             </div>
                             {# gets the text from the body of the question #}
                             <div class="panel-body">
-                                {{ question.body}}
+                                {{ question.body|readmore:15}}
                             </div>
                             <div class="panel-footer">
                                 <b>I was wondering the same</b>

@@ -28,3 +28,6 @@
     margin-top: -13px;
 }
 
+.panel-body {
+    word-wrap: break-word;
+}

@@ -70,15 +70,45 @@ class Answer(models.Model):
     body = models.TextField()
     created_at = models.DateTimeField(null=True, blank=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, default=1)
-    # votes = models.IntegerField(default=0)
-    # voters = models.ManyToManyField(User,related_name='voted_for_question')
     answer_to = models.ForeignKey(Question, related_name='answer_to')
+    votes = models.IntegerField(default=0)
+    user_votes_up = models.TextField(editable=True,default='[]')  # JSON-text, works as a list of user in string-format 
+    user_votes_down = models.TextField(editable=True, default='[]')# JSON-text, works as a list of user in string-format 
+
 
     # adds a timestamp to the question posted
     def save(self, *args, **kwargs):
         if self.created_at is None:
             self.created_at = timezone.now()
         super().save(*args, **kwargs)
+
+    def upvote_answer(self, user):
+        self.votes += 1
+        user_list_up = self.create_json_list(self.user_votes_up)  # decodes the JSON-text to a list 
+        user_list_up.append(str(user))  # appends the user 
+        self.user_votes_up = json.dumps(user_list_up)  # encodes the list to JSON-string, user_votes 
+        self.save()
+
+    def downvote_answer(self, user):
+        self.votes -= 1
+        user_list_down = self.create_json_list(self.user_votes_down)  # opposite as upvote (check above) 
+        user_list_down.remove(str(user))
+        self.user_votes_down = self.create_json_str(user_list_down)
+        self.save()
+
+    def is_in_user_votes_up(self, user):
+        user_list_up = self.create_json_list(self.user_votes_up)
+        if str(user) in user_list_up:
+            return True
+        else:
+            return False
+
+    def is_in_user_votes_down(self, user):
+        user_list_down = self.create_json_list(self.user_votes_down)
+        if str(user) in user_list_down:
+            return True
+        else:
+            return False
 
 
 class UserVotes(models.Model):
