@@ -15,5 +15,7 @@ urlpatterns = [
     url(r'myquestions/$', views.myquestions, name="myquestions"),
     url(r'myquestions/n/$', views.myQnewest, name="myQnewest"),
     url(r'myquestions/o/$', views.myQoldest, name="myQoldest"),
-    url(r'myquestions/mv/$', views.myQmost_votes, name="myQmost_votes")
+    url(r'myquestions/mv/$', views.myQmost_votes, name="myQmost_votes"),
+    url(r'pin/$', views.pin, name="pin"),
+    url(r'pinned/$', views.pinned, name="pinned")
 ]
