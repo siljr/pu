@@ -1,7 +1,6 @@
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-
 from django.views import generic
 from django.db.models import Q
 
@@ -35,12 +34,8 @@ def oldest(request):
     return render(request, 'index.html', context)
 
 def most_votes(request):
-    # for now:
-    context = {'questions': Question.objects.all(), 'tabs': 'most_votes'}
-    """for later:
-    context = {'questions': Question.objects.all().order_by("votes"), 'tabs': 'most_votes'} """
+    context = {'questions': reversed(Question.objects.all().order_by("votes")), 'tabs': 'most_votes'}
     return render(request, 'index.html', context)
-
 
 @login_required(login_url='/login/')
 def register_question(request):
