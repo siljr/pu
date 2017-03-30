@@ -144,9 +144,6 @@ def myQoldest(request):
     return render(request, 'index.html', context)
 
 def myQmost_votes(request):
-    # for now:
-    context = {'questions': Question.objects.filter(user=request.user), 'tabs': 'most_votes', 'myQ':'true'}
-    """for later:
-    context = {'questions': Question.objects.all().order_by("votes"), 'tabs': 'most_votes'} """
+    context = {'questions': reversed(Question.objects.all().order_by("votes")), 'tabs': 'most_votes'}
     return render(request, 'index.html', context)
 
