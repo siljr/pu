@@ -1,0 +1,108 @@
+{% extends "qBot/base.html" %}
+
+{% block content %}
+    <br>
+    <br>
+    <br>
+
+
+    <head>
+      <!-- Theme Made By www.w3schools.com - No Copyright -->
+      <style>
+
+      p {font-size: 16px;}
+      .margin {margin-bottom: 45px;}
+      .bg-1 {
+          background-color: #FFB914; /* Gray */
+          color: #000000;
+          border-radius: 25px;
+      }
+      .bg-2 {
+          background-color: #6495ED; /* Dark Blue */
+          color: #ffffff;
+          border-radius: 25px;
+      }
+      .bg-3 {
+          background-color: #333333; /* White */
+          color: #FFFFFF;
+          border-radius: 25px;
+      }
+      .bg-4 {
+          background-color: #2f2f2f; /* Black Gray */
+          color: #fff;
+          border-radius: 25px;
+      }
+      .container {
+          padding-top: 70px;
+          padding-bottom: 70px;
+      }
+
+      </style>
+    </head>
+    <body>
+
+    <!-- First Container -->
+    <div class="container bg-1 text-center">
+      <h3 class="margin">What is qBot?</h3>
+      <img {% load static %} src={% static 'qBot/images/logo.svg' %} class="img-responsive img-circle margin" style="display:inline" alt="Bird" width="200" height="200">
+      <h3>qBot is a revolutionary platform that connects students with each other.</h3>
+      <p> Her forklarer vi qBot. Her forklarer vi qBot. Her forklarer vi qBot. Her forklarer vi qBot. Her forklarer vi qBot. Her forklarer vi qBot. </p>
+    </div>
+
+    <!-- Third Container (Grid) -->
+    <div class="container bg-3 text-center">
+      <h1 class="margin">The team behind</h1><br>
+      <div class="border row">
+        <div class="border col-sm-3">
+          <h3>Silje</h3>
+          <p>Scrum master and architect</p>
+          <img {% load static %} src={% static 'qBot/images/silje.jpg' %} class = "img-circle" style="width:70%" alt="Image">
+        </div>
+        <div class="border col-sm-3">
+          <h3>Håkon</h3>
+          <p>Lead developer backend</p>
+          <img {% load static %} src={% static 'qBot/images/haakon.jpg' %} class = "img-circle" style="width:70%" alt="Image">
+        </div>
+        <div class="border col-sm-3">
+          <h3>Long</h3>
+          <p>Version controller and lead tester</p>
+          <img {% load static %} src={% static 'qBot/images/long.jpg' %} class = "img-circle" style="width:70%" alt="Image">
+        </div>
+        <div class="border col-sm-3">
+          <h3>Eivind</h3>
+          <p>Lead developer frontend</p>
+          <img {% load static %} src={% static 'qBot/images/eivind.jpg' %} class = "img-circle" style="width:75%" alt="Image">
+        </div>
+      </div>
+    </div>
+
+    <!-- Fourth Container (Grid) -->
+    <div class="container bg-2 text-center">
+      <h1 class="margin">Made with</h1><br>
+      <div class="row">
+        <div class="border col-sm-4">
+          <h3>Python</h3>
+          <img {% load static %} src={% static 'qBot/images/python.png' %} class = "img-circle" style="width:70%" alt="Image">
+        </div>
+        <div class="col-sm-4">
+          <h3>Django</h3>
+
+          <img {% load static %} src={% static 'qBot/images/django.png' %} class = "img-circle" style="width:70%" alt="Image">
+        </div>
+        <div class="col-sm-4">
+          <h3>Bootstrap</h3>
+          <img {% load static %} src={% static 'qBot/images/bootstrap.png' %} class = "img-circle" style="width:70%" alt="Image">
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="container bg-4 text-center">
+      <p>You can reach us at </a></p>
+      Email: contact@qbot.com
+      <p>Tlf: +47 47855032</p>
+    </footer>
+
+    </body>
+    </html>
+{% endblock %}

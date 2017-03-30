@@ -19,6 +19,7 @@ from django.contrib.auth import views as auth_views
 from questions import views
 from registrationApp import views as registration_views
 from questions import views as question_views
+from django.views.generic import TemplateView
 
 urlpatterns = [
     # makes sure the url file from questions is added. Namespace allows us to call "questions:name"
@@ -37,4 +38,7 @@ urlpatterns = [
 
     # adding admin page (default)
     url(r'^admin/', admin.site.urls),
+
+    # adding about page
+    url(r'^about/', TemplateView.as_view(template_name='about_us.html')),
 ]
