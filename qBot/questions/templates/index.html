@@ -3,9 +3,13 @@
 
 {% block navtabs %}
 
+<style>
+
+</style>
+
     {% if questions %}
         <div class="container">
-            <div class="row">
+            <div class="row-eq-height">
                 {% for question in questions %}
 {#                    makes sure there is a column view#}
                     <div class="col-md-4">
@@ -13,7 +17,9 @@
                         <div class="panel panel-info">
                             <div class="panel-heading" >
 {#                                get the text from the title from the object #}
-                                <h3 class="panel-title">{{ question.title }}</h3>
+                                <a href="/questions/{{ question.id }}">
+                                <h3 class="panel-title" href="/questions/{{ question.id }}"><font color="#406284">{{ question.title }}</font></h3>
+                                </a>
                             </div>
 {#                            gets the text from the body of the question#}
                             <div class="panel-body">
