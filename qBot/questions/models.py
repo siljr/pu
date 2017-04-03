@@ -5,6 +5,7 @@ from django.db import models
 from django.utils import timezone
 from django.conf import settings
 import json
+from taggit.managers import TaggableManager
 
 
 
@@ -18,7 +19,8 @@ class Question(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, default=1, related_name='is_made_by')
     votes = models.IntegerField(default = 0)
     user_votes = models.TextField(editable=True, default='[]')  # JSON-text, works as a list of user in string-format
-    pinned_by = models.ManyToManyField(User)
+    pinned_by = models.TextField(editable=True, default='[]')
+    tags = TaggableManager()
 
     # adds a timestamp to the question posted
     def save(self, *args, **kwargs):

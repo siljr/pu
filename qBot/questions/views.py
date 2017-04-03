@@ -49,10 +49,13 @@ def register_question(request):
             if form.is_valid():
                 title = form.cleaned_data['title']
                 body = form.cleaned_data['body']
+                tags = form.cleaned_data['tags']
 
                 user = User.objects.get(username=username)
 
-                Question.objects.create(title=title, body=body, user=user)
+                quest = Question.objects.create(title=title, body=body, user=user)
+                quest.tags.add(tags)
+
 
                 # when you submit one question, you are redirected back to the main page
                 return redirect('/questions')
