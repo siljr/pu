@@ -208,3 +208,13 @@ def pin(request):
         print('did not get')
     return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
+
+# view for tags
+class TagIndexView(generic.ListView):
+    template_name = 'index.html'
+    model = Question
+    paginate_by = 10
+    context_object_name = 'questions'
+
+    def get_queryset(self):
+        return Question.objects.filter(tags__slug=self.kwargs.get('slug'))
