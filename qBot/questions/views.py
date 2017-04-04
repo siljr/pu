@@ -1,13 +1,13 @@
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-
 from django.views import generic
 from django.db.models import Q
 
 from questions.forms import QuestionForm, AnswerForm
 from .models import Question, Answer
 
+from django.http import HttpResponseRedirect
 
 @login_required(login_url='/login/')
 def index(request):
@@ -35,12 +35,8 @@ def oldest(request):
     return render(request, 'index.html', context)
 
 def most_votes(request):
-    # for now:
-    context = {'questions': Question.objects.all(), 'tabs': 'most_votes'}
-    """for later:
-    context = {'questions': Question.objects.all().order_by("votes"), 'tabs': 'most_votes'} """
+    context = {'questions': reversed(Question.objects.all().order_by("votes")), 'tabs': 'most_votes'}
     return render(request, 'index.html', context)
-
 
 @login_required(login_url='/login/')
 def register_question(request):
@@ -156,7 +152,7 @@ def myquestions(request):
     #search mechanism with Q lookups
     query = request.GET.get("q")
     if query:
-        context = {'questions': Question.objects.filter(
+        context = {'questions': Question.objects.filter(user=request.user).filter(
             Q(title__contains=query)|
                    Q(body__contains=query)).distinct()}
     # always needs to have a request, a go to html page and a dictrionary
@@ -173,9 +169,26 @@ def myQoldest(request):
     return render(request, 'index.html', context)
 
 def myQmost_votes(request):
-    # for now:
-    context = {'questions': Question.objects.filter(user=request.user), 'tabs': 'most_votes', 'myQ':'true'}
-    """for later:
-    context = {'questions': Question.objects.all().order_by("votes"), 'tabs': 'most_votes'} """
+    context = {'questions': reversed(Question.objects.all().order_by("votes")), 'tabs': 'most_votes'}
     return render(request, 'index.html', context)
+
+def pinned(request):
+    questions = Question.objects.filter(pinned_by=request.user)
+    context = {'questions':questions, 'tabs': 'none'}
+    return render(request, 'index.html', context)
+
+def pin(request):
+    user = request.user
+    if request.method == "GET":
+        question_id = request.GET.get('question', '')
+        question = Question.objects.get(id=question_id)
+
+        # Checking whether the user wants to pin or unpin
+        if user in question.pinned_by.all():
+            question.pinned_by.remove(user)
+        else:
+            question.pinned_by.add(user)
+    else:
+        print('did not get')
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 

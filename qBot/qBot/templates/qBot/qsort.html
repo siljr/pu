@@ -1,6 +1,7 @@
 {% extends "qBot/base.html" %}
 
 {% block content %}
+    {% if tabs !=  'none' %} {# In case the view doesn't need sorting #}
     </br>
     </br>
     </br>
@@ -9,6 +10,7 @@
         <li role="presentation" {% if tabs == 'oldest' %}class="active" {% endif %}><a {% if myQ == 'true' %} href="{% url 'questions:myQoldest' %}"{% else %}href="{% url 'questions:oldest' %}"{% endif %} >Oldest</a></li>
         <li role="presentation" {% if tabs == 'most_votes' %}class="active" {% endif %}><a {% if myQ == 'true' %} href="{% url 'questions:myQmost_votes' %}"{% else %}href="{% url 'questions:most_votes' %}"{% endif %}>Most votes</a></li>
     </ul>
+    {% endif %}
 {% block navtabs %}
 {% endblock navtabs%}
 {% endblock content %}

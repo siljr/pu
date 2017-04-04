@@ -17,6 +17,7 @@ class Question(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, default=1, related_name='is_made_by')
     votes = models.IntegerField(default = 0)
     user_votes = models.TextField(editable=True, default='[]')  # JSON-text, works as a list of user in string-format
+    pinned_by = models.ManyToManyField(User)
 
     # adds a timestamp to the question posted
     def save(self, *args, **kwargs):
@@ -24,6 +25,8 @@ class Question(models.Model):
             self.created_at = timezone.now()
         super().save(*args, **kwargs)
 
+    def __str__(self):
+        return str(self.id) + '. ' + self.title
     # upvotes the question
     def upvote_question(self, user):
         self.votes += 1

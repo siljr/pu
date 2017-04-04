@@ -11,9 +11,9 @@
         <div class="container">
             <div class="row-eq-height">
                 {% for question in questions %}
-{#                    makes sure there is a column view#}
+                    {# makes sure there is a column view #}
                     <div class="col-md-4">
-{#                    panel is a standard bootstrap box with a grey header #}
+                        {# panel is a standard bootstrap box with a grey header #}
                         <div class="panel panel-info">
                             <div class="panel-heading" >
 {#                                get the text from the title from the object #}
@@ -21,7 +21,7 @@
                                 <h3 class="panel-title" href="/questions/{{ question.id }}"><font color="#406284">{{ question.title }}</font></h3>
                                 </a>
                             </div>
-{#                            gets the text from the body of the question#}
+                            {# gets the text from the body of the question #}
                             <div class="panel-body">
                                 {{ question.body|readmore:15}}
                             </div>
@@ -31,6 +31,16 @@
                                     <span class="glyphicon glyphicon-ok"></span>
                                 </a>
                                 {{ question.votes }}
+                            {# Pinning functionality, front end can easily be changed #}
+                                <a href="/questions/pin?question={{ question.id }}"
+                                        {% if user in question.pinned_by.all %}
+                                   style="color:gold"
+                                        {% else %}
+                                   style="color:black"
+                                        {% endif %}
+                                   type="button" class="btn btn-default btn-lg pull-right">
+                                    <span class="glyphicon glyphicon-pushpin" aria-hidden="true" ></span>
+                                </a>
                                 <br>
                                 {# Link to answers below #}
                                 {% if question.answer_to.count %}
