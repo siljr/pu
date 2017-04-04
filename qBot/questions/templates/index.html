@@ -43,7 +43,11 @@
                                     <a href="/questions/{{ question.id }}"> Be the first to answer! </a>
                                 {% endif %}
                                 {# Add a tag section #}
-                                <a>Tags:</a>
+
+                                {% for tag in question.tags.all %}
+                                    <li> Tags: {{ tag.name }} </li>
+                                {% endfor %}
+
                             </div>
                         </div>
                     </div>

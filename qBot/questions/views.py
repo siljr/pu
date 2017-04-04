@@ -17,10 +17,12 @@ def index(request):
 
     #search mechanism with Q lookups
     query = request.GET.get("q")
+
     if query:
         context = {'questions': Question.objects.filter(
             Q(title__contains=query)|
-                   Q(body__contains=query)).distinct()}
+            Q(tags__name__contains=query)|
+            Q(body__contains=query)).distinct()}
     # always needs to have a request, a go to html page and a dictrionary
     return render(request, 'index.html', context)
 
