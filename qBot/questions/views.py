@@ -70,20 +70,12 @@ def vote(request):
         question_id = request.GET.get('question', '')
         question = Question.objects.get(id=question_id)
         if request.GET.get('votetype', '') == 'up':
-            print("*************")
-            print(question.user_votes)
             if question.is_in_user_votes(user):
                 question.downvote_question(user)
-                print("Downvoted")
-
             else:
                 question.upvote_question(user)
-                print('upvoted')
                 #return render(request, "index.html", {'questions': Question.objects.all(), "href" :"/questions/vote?question={{ "+str(question.id)+" }}&votetype=up", 'this.queston.active_button': "True", 'id':question_id})
-        else:
-            print('ingen av delene')
-    else:
-        print('did not get')
+
     return redirect('/questions')
 
 @login_required(login_url='/login/')
@@ -94,17 +86,13 @@ def answer_vote(request):
         answer = Answer.objects.get(id=answer_id)
         if request.GET.get('votetype', '') == 'up':
             if answer.is_in_user_votes_up(user):
-                print("regret")
                 answer.downvote_regret(user)
-
             else:
                 answer.upvote_answer(user)
-                print('upvoted')
                 #return render(request, "index.html", {'questions': Question.objects.all(), "href" :"/questions/vote?question={{ "+str(question.id)+" }}&votetype=up", 'this.queston.active_button': "True", 'id':question_id})
         elif request.GET.get('votetype', '') == 'down':
             if answer.is_in_user_votes_down(user):
                 answer.upvote_regret(user)
-
             else:
                 answer.downvote_answer(user)
 
