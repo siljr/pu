@@ -19,5 +19,6 @@ urlpatterns = [
     url(r'myquestions/o/$', views.myQoldest, name="myQoldest"),
     url(r'myquestions/mv/$', views.myQmost_votes, name="myQmost_votes"),
     url(r'pin/$', views.pin, name="pin"),
-    url(r'pinned/$', views.pinned, name="pinned")
+    url(r'pinned/$', views.pinned, name="pinned"),
+    url(r'tag/(?P<slug>\w+)/$', views.TagIndexView.as_view(), name='tagged')
 ]
