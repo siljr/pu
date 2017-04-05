@@ -31,3 +31,10 @@
 .panel-body {
     word-wrap: break-word;
 }
+
+.navbar-header {
+    width: 100%;
+    line-height: 150px;
+    color:red;
+    height: 150px;
+}
