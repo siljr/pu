@@ -24,15 +24,11 @@ class Question(models.Model):
     user_votes = models.TextField(editable=True, default='[]')  # JSON-text, works as a list of user in string-format
     pinned_by = models.TextField(editable=True, default='[]')
     tags = TaggableManager()
-    #testing slugs
-    slug = models.SlugField(max_length=255, blank=True)
 
     # adds a timestamp to the question posted
     def save(self, *args, **kwargs):
         if self.created_at is None:
             self.created_at = timezone.now()
-        if self.title and not self.slug:
-            self.slug = slugify(self.title)
         super().save(*args, **kwargs)
 
     def __str__(self):
