@@ -51,7 +51,7 @@ def register_question(request):
             if form.is_valid():
                 title = form.cleaned_data['title']
                 body = form.cleaned_data['body']
-                tags = form.cleaned_data['tags'].split()
+                tags = form.cleaned_data['tags'].split(",")
 
                 user = User.objects.get(username=username)
 
