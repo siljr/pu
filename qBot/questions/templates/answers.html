@@ -19,17 +19,17 @@
                               {{ answer.created_at }}
                         </div>
 
-                    {#                                                  gets the body of the answer#}
+                    {#gets the body of the answer#}
                     <div class="panel-body">
 
                         {{ answer.body }}
                         <div style="float: right";>
 
-                        <a href="/questions/{{ question.id }}/answer_vote?answer={{ answer.id }}&votetype=up" type="button" class="btn btn-default btn-lg">
+                        <a href="/questions/1234?answer={{ answer.id }}&question={{ question.id }}&votetype=up" type="button" class="btn btn-default btn-lg">
                                     <span class="glyphicon glyphicon-chevron-up"></span>
                                 </a>
                         {{ answer.votes }}
-                        <a href="/questions/{{ question.id }}/answer_vote?answer={{ answer.id }}&votetype=down" type="button" class="btn btn-default btn-lg">
+                        <a href="/questions/1234?answer={{ answer.id }}&question={{ question.id }}&votetype=down" type="button" class="btn btn-default btn-lg">
                                     <span class="glyphicon glyphicon-chevron-down"></span>
                                 </a>
                         </div>

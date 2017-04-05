@@ -18,7 +18,6 @@ class Question(models.Model):
     body = models.TextField()
     created_at = models.DateTimeField(null=True, blank=True)
     # sets a connection to a user
-    # user = models.ForeignKey(User, related_name='is_made_by')
     user = models.ForeignKey(settings.AUTH_USER_MODEL, default=1, related_name='is_made_by')
     votes = models.IntegerField(default = 0)
     user_votes = models.TextField(editable=True, default='[]')  # JSON-text, works as a list of user in string-format
@@ -87,19 +86,58 @@ class Answer(models.Model):
             self.created_at = timezone.now()
         super().save(*args, **kwargs)
 
+
+
     def upvote_answer(self, user):
-        self.votes += 1
+
         user_list_up = self.create_json_list(self.user_votes_up)  # decodes the JSON-text to a list 
         user_list_up.append(str(user))  # appends the user 
-        self.user_votes_up = json.dumps(user_list_up)  # encodes the list to JSON-string, user_votes 
+        self.user_votes_up = self.create_json_str(user_list_up)
+
+        if self.is_in_user_votes_down(user):
+            user_list_down = self.create_json_list(self.user_votes_down)
+            user_list_down.remove(str(user))
+            self.user_votes_down = self.create_json_str(user_list_down)
+            self.votes += 2
+        else:
+            self.votes += 1
+
+
         self.save()
 
     def downvote_answer(self, user):
-        self.votes -= 1
+
         user_list_down = self.create_json_list(self.user_votes_down)  # opposite as upvote (check above) 
+        user_list_down.append(str(user))
+
+
+        if self.is_in_user_votes_up(user):
+            user_list_up = self.create_json_list(self.user_votes_up)
+            user_list_up.remove(str(user))
+            self.user_votes_up = self.create_json_str(user_list_up)
+            self.votes -= 2
+        else:
+            self.votes -= 1
+
+        self.user_votes_down = self.create_json_str(user_list_down)
+        self.save()
+
+
+    def upvote_regret(self, user):
+        self.votes += 1
+        user_list_down = self.create_json_list(self.user_votes_down)
         user_list_down.remove(str(user))
         self.user_votes_down = self.create_json_str(user_list_down)
         self.save()
+
+
+    def downvote_regret(self, user):
+        self.votes -= 1
+        user_list_up = self.create_json_list(self.user_votes_up)
+        user_list_up.remove(str(user))
+        self.user_votes_up = self.create_json_str(user_list_up)
+        self.save()
+
 
     def is_in_user_votes_up(self, user):
         user_list_up = self.create_json_list(self.user_votes_up)
@@ -114,6 +152,20 @@ class Answer(models.Model):
             return True
         else:
             return False
+
+            # creates a list from the JSON-text format
+
+    def create_json_list(self, input):
+        jsonDec = json.decoder.JSONDecoder()
+        return jsonDec.decode(input)
+
+
+        # creates a JSON-text from a list
+
+    def create_json_str(self, input):
+        return json.dumps(input)
+
+
 
 
 class UserVotes(models.Model):
