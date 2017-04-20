@@ -1,3 +1,5 @@
+[![Coverage Status](https://coveralls.io/repos/github/siljr/pu/badge.svg?branch=master)](https://coveralls.io/github/siljr/pu?branch=master)
+
 TDT4140 - Programvareutvikling
 
 2017 
