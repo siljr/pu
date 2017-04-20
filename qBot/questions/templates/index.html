@@ -27,7 +27,12 @@
                             </div>
                             <div class="panel-footer">
                                 <b>I was wondering the same</b>
-                                <a href="/questions/vote?question={{ question.id }}&votetype=up" type="button" class="btn btn-default btn">
+                                <a href="/questions/vote?question={{ question.id }}&votetype=up" type="button"
+                                    {% if user in question.button_list.all %}
+                                   class="btn btn-default btn active"
+                                        {% else %}
+                                   class="btn btn-default btn"
+                                        {% endif %}>
                                     <span class="glyphicon glyphicon-ok"></span>
                                 </a>
                                 {{ question.votes }}

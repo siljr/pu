@@ -18,10 +18,11 @@ class Question(models.Model):
     body = models.TextField()
     created_at = models.DateTimeField(null=True, blank=True)
     # sets a connection to a user
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, default=1, related_name='is_made_by')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, default=1, related_name='question_made_by')
     votes = models.IntegerField(default = 0)
     user_votes = models.TextField(editable=True, default='[]')  # JSON-text, works as a list of user in string-format
-    pinned_by = models.TextField(editable=True, default='[]')
+    pinned_by = models.ManyToManyField(User, related_name="pinned_py")
+    button_list = models.ManyToManyField(User, related_name="active_button")
     tags = TaggableManager()
 
     # adds a timestamp to the question posted
@@ -73,12 +74,13 @@ class Question(models.Model):
 class Answer(models.Model):
     body = models.TextField()
     created_at = models.DateTimeField(null=True, blank=True)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, default=1)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, default=1, related_name='answer_made_by')
     answer_to = models.ForeignKey(Question, related_name='answer_to')
     votes = models.IntegerField(default=0)
     user_votes_up = models.TextField(editable=True,default='[]')  # JSON-text, works as a list of user in string-format 
     user_votes_down = models.TextField(editable=True, default='[]')# JSON-text, works as a list of user in string-format 
-
+    button_up = models.ManyToManyField(User, related_name= 'up_button')
+    button_down = models.ManyToManyField(User, related_name= 'down_button')
 
     # adds a timestamp to the question posted
     def save(self, *args, **kwargs):

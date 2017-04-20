@@ -80,9 +80,12 @@ def vote(request):
         if request.GET.get('votetype', '') == 'up':
             if question.is_in_user_votes(user):
                 question.downvote_question(user)
+                question.button_list.remove(user)
+                print(question.button_list)
             else:
                 question.upvote_question(user)
-                #return render(request, "index.html", {'questions': Question.objects.all(), "href" :"/questions/vote?question={{ "+str(question.id)+" }}&votetype=up", 'this.queston.active_button': "True", 'id':question_id})
+                question.button_list.add(user)
+
 
     return redirect('/questions')
 
@@ -95,14 +98,28 @@ def answer_vote(request):
         if request.GET.get('votetype', '') == 'up':
             if answer.is_in_user_votes_up(user):
                 answer.downvote_regret(user)
+                answer.button_up.remove(user)
             else:
+                if answer.is_in_user_votes_down(user):
+                    print("sup inne i her 1")
+                    answer.button_down.remove(user)
                 answer.upvote_answer(user)
+                answer.button_up.add(user)
+
+
+
                 #return render(request, "index.html", {'questions': Question.objects.all(), "href" :"/questions/vote?question={{ "+str(question.id)+" }}&votetype=up", 'this.queston.active_button': "True", 'id':question_id})
         elif request.GET.get('votetype', '') == 'down':
             if answer.is_in_user_votes_down(user):
                 answer.upvote_regret(user)
+                answer.button_down.remove(user)
             else:
+                if answer.is_in_user_votes_up(user):
+                    print("sup inne i her 2")
+                    answer.button_up.remove(user)
                 answer.downvote_answer(user)
+                answer.button_down.add(user)
+
 
     question_id = request.GET.get('question', '')
     return redirect('/questions/'+str(question_id))
@@ -182,8 +199,10 @@ def pin(request):
         # Checking whether the user wants to pin or unpin
         if user in question.pinned_by.all():
             question.pinned_by.remove(user)
+            print(question.pinned_by)
         else:
             question.pinned_by.add(user)
+            print(question.pinned_by)
     else:
         print('did not get')
     return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
