@@ -17,10 +17,12 @@ def index(request):
 
     #search mechanism with Q lookups
     query = request.GET.get("q")
+
     if query:
         context = {'questions': Question.objects.filter(
             Q(title__contains=query)|
-                   Q(body__contains=query)).distinct()}
+            Q(tags__name__contains=query)|
+            Q(body__contains=query)).distinct()}
     # always needs to have a request, a go to html page and a dictrionary
     return render(request, 'index.html', context)
 
@@ -49,10 +51,16 @@ def register_question(request):
             if form.is_valid():
                 title = form.cleaned_data['title']
                 body = form.cleaned_data['body']
+                tags = form.cleaned_data['tags'].split(",")
 
                 user = User.objects.get(username=username)
 
-                Question.objects.create(title=title, body=body, user=user)
+                quest = Question.objects.create(title=title, body=body, user=user)
+
+                #add tags one by one
+                for tag in tags:
+                    quest.tags.add(tag)
+
 
                 # when you submit one question, you are redirected back to the main page
                 return redirect('/questions')
@@ -199,3 +207,13 @@ def pin(request):
         print('did not get')
     return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
+
+# view for tags
+class TagIndexView(generic.ListView):
+    template_name = 'index.html'
+    model = Question
+    paginate_by = 10
+    context_object_name = 'questions'
+
+    def get_queryset(self):
+        return Question.objects.filter(tags__slug=self.kwargs.get('slug'))
