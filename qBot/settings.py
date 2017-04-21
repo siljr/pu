@@ -25,7 +25,7 @@ SECRET_KEY = '8g49rbsm9i(c@8c3d4g#j+19c1o)s_9t1#w%19zqp_l_bv!)z_'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['qbot-ntnu.herokuapp.com', '127.0.0.1', 'localhost']
 
 
 # Application definition
@@ -119,11 +119,23 @@ USE_L10N = True
 
 USE_TZ = True
 
+# when logged in, the user will be redirected to this page
+LOGIN_REDIRECT_URL = '/questions'
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
-STATIC_URL = '/static/'
+#STATIC_URL = '/static/'
 
-# when logged in, the user will be redirected to this page
-LOGIN_REDIRECT_URL = '/questions'
+#WebUrl
+import dj_database_url
+db_from_env = dj_database_url.config(conn_max_age=500)
+DATABASES['default'].update(db_from_env)
+
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
