@@ -1,0 +1,123 @@
+{% extends  "qBot/base.html"  %}
+
+<style>
+  body{
+  padding-top:25px !important;
+}
+.stats {
+  text-align:center;
+  text-shadow:1px 1px 0px #fff;
+  margin-top:25px;
+
+}
+.stats li{
+  width:125px;
+}
+.stats span{
+  font-family:Helvetica;
+  font-weight:bold;
+  text-shadow:1px 1px 0px #fff;
+  font-size:4em;
+
+  display:block;
+  line-height:1em;
+}
+
+/* Large desktop */
+@media (min-width: 1200px) {
+}
+
+/* Portrait tablet to landscape and desktop */
+@media (min-width: 768px) and (max-width: 979px) {
+}
+
+/* Landscape phone to portrait tablet */
+@media (max-width: 767px) {
+  .profile img{
+    width:75px;
+  }
+  .profile h2{
+    font-size:1.7em;
+  }
+  .stats span{
+    font-size: 2em;
+  }
+}
+
+/* Landscape phones and down */
+@media (max-width: 480px) {
+}
+</style>
+
+
+{% block content %}
+
+<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+
+<div class="container profile">
+  <div class="row">
+    <div class="span12">
+      <div class="well well-small clearfix">
+        <div class="row-fluid">
+          <div class="span4">
+             <h2>{{ user.first_name }} {{ user.last_name }} </h2>
+            <ul class="unstyled">
+              <li><i class="icon-phone"></i> {{ user }}</li>
+              <li><i class="icon-globe"></i> {{ user.email }} </li>
+            </ul>
+          </div>
+          <div class="span6">
+          <ul class="inline stats">
+              <div class="col-md-4">
+               <li>
+
+                 <h1>{{ questions.count }}</h1>
+                 Questions
+              </li>
+                  </div>
+              <div class="col-md-4">
+              <li>
+                 <h1>{{ answers.count }} </h1>
+                 Answers
+              </li>
+                  </div>
+              <div class="col-md-4">
+               <li>
+                 <h1>{{ votes }}</h1>
+                 Points
+              </li>
+              </div>
+          </ul>
+            <div><!--/span6-->
+            </div><!--/row-->
+      </div>
+      <!--Body content-->
+    </div>
+  </div>
+</div>
+
+  </div>
+        <div class="col-sm-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"> My questions:</h3>
+                </div>
+
+                    {% if questions %}
+                        {% for question in questions %}
+                            {% if question.answer_to.count == 0 %}
+                             <a href = "/questions/{{ question.id }}" class="list-group-item list-group-item-danger">{{ question.title }}</a>
+                            {% else %}
+                             <a href = "/questions/{{ question.id }}" class="list-group-item list-group-item-success">{{ question.title }}</a>
+                            {% endif %}
+                        {%  endfor %}
+                    {% else %}
+                    <p>No questions asked</p>
+                    {% endif %}
+            </div>
+        </div>
+    </div>
+
+    </div>
+
+{% endblock %}

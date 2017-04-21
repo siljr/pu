@@ -41,4 +41,8 @@ urlpatterns = [
 
     # adding about page
     url(r'^about/', TemplateView.as_view(template_name='about_us.html')),
+
+    #profile page
+    url(r'^profile/', include('profilepage.urls', namespace='profile'))
+
 ]
