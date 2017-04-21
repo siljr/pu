@@ -51,15 +51,18 @@ def register_question(request):
             if form.is_valid():
                 title = form.cleaned_data['title']
                 body = form.cleaned_data['body']
-                tags = form.cleaned_data['tags'].split(",")
+                tags = form.cleaned_data['tags']
 
                 user = User.objects.get(username=username)
 
                 quest = Question.objects.create(title=title, body=body, user=user)
 
                 #add tags one by one
-                for tag in tags:
-                    quest.tags.add(tag)
+                if tags:
+                    t = tags.split(",")
+                    for tag in t:
+                        quest.tags.add(tag)
+
 
 
                 # when you submit one question, you are redirected back to the main page
@@ -73,62 +76,54 @@ def register_question(request):
 
 @login_required(login_url='/login/')
 def vote(request):
-    print("********************")
-    print("inne i vote Q")
-    print("********************")
     user = request.user
     if request.method == "GET":
         question_id = request.GET.get('question', '')
         question = Question.objects.get(id=question_id)
         if request.GET.get('votetype', '') == 'up':
-            print('**********')
-            print(question.user_votes)
-            print('**********')
             if question.is_in_user_votes(user):
                 question.downvote_question(user)
-                print("Downvoted")
-
+                question.button_list.remove(user)
+                print(question.button_list)
             else:
                 question.upvote_question(user)
-                print('upvoted')
-                #return render(request, "index.html", {'questions': Question.objects.all(), "href" :"/questions/vote?question={{ "+str(question.id)+" }}&votetype=up", 'this.queston.active_button': "True", 'id':question_id})
-        else:
-            print('ingen av delene')
-    else:
-        print('did not get')
+                question.button_list.add(user)
+
+
     return redirect('/questions')
 
 @login_required(login_url='/login/')
 def answer_vote(request):
-    print("********************")
-    print("inne i vote answer")
-    print("********************")
     user = request.user
     if request.method == "GET":
         answer_id = request.GET.get('answer', '')
         answer = Answer.objects.get(id=answer_id)
         if request.GET.get('votetype', '') == 'up':
             if answer.is_in_user_votes_up(user):
-                pass
-                print("Passed")
-
+                answer.downvote_regret(user)
+                answer.button_up.remove(user)
             else:
+                if answer.is_in_user_votes_down(user):
+                    answer.button_down.remove(user)
                 answer.upvote_answer(user)
-                print('upvoted')
+                answer.button_up.add(user)
+
+
+
                 #return render(request, "index.html", {'questions': Question.objects.all(), "href" :"/questions/vote?question={{ "+str(question.id)+" }}&votetype=up", 'this.queston.active_button': "True", 'id':question_id})
         elif request.GET.get('votetype', '') == 'down':
             if answer.is_in_user_votes_down(user):
-                pass
-                print("Passed")
-
+                answer.upvote_regret(user)
+                answer.button_down.remove(user)
             else:
+                if answer.is_in_user_votes_up(user):
+                    answer.button_up.remove(user)
                 answer.downvote_answer(user)
-                print('upvoted')
+                answer.button_down.add(user)
 
-    else:
-        print('did not get')
 
-    return redirect('/question')
+    question_id = request.GET.get('question', '')
+    return redirect('/questions/'+str(question_id))
 
 
 @login_required(login_url='/login/')
@@ -205,8 +200,10 @@ def pin(request):
         # Checking whether the user wants to pin or unpin
         if user in question.pinned_by.all():
             question.pinned_by.remove(user)
+            print(question.pinned_by)
         else:
             question.pinned_by.add(user)
+            print(question.pinned_by)
     else:
         print('did not get')
     return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
