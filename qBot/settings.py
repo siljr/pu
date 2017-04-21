@@ -25,7 +25,7 @@ SECRET_KEY = '8g49rbsm9i(c@8c3d4g#j+19c1o)s_9t1#w%19zqp_l_bv!)z_'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['qbot-ntnu.herokuapp.com']
+ALLOWED_HOSTS = ['qbot-ntnu.herokuapp.com', '127.0.0.1:8000', 'localhost']
 
 
 # Application definition
