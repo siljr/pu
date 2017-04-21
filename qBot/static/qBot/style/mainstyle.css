@@ -31,3 +31,10 @@
 .panel-body {
     word-wrap: break-word;
 }
+@media (min-width: 1118px) and (max-width: 1000px) {
+   .collapse {
+       display: none !important;
+   }
+}
+
+
