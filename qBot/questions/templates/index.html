@@ -57,9 +57,11 @@
 
                                 <ul>
                                 Tags:
-                                {% for tag in question.tags.all %}
-                                    <a href="{% url 'questions:tagged' tag.slug %}">{{ tag.name }},</a>
-                                {% endfor %}
+                                    {% if question.tags %}
+                                        {% for tag in question.tags.all %}
+                                            <a href="{% url 'questions:tagged' tag.slug %}">{{ tag.name }},</a>
+                                        {% endfor %}
+                                    {% endif %}
                                 </ul>
                             </div>
                         </div>

@@ -51,15 +51,18 @@ def register_question(request):
             if form.is_valid():
                 title = form.cleaned_data['title']
                 body = form.cleaned_data['body']
-                tags = form.cleaned_data['tags'].split(",")
+                tags = form.cleaned_data['tags']#.split(",")
 
                 user = User.objects.get(username=username)
 
                 quest = Question.objects.create(title=title, body=body, user=user)
 
                 #add tags one by one
-                for tag in tags:
-                    quest.tags.add(tag)
+                if tags:
+                    t = tags.split(",")
+                    for tag in t:
+                        quest.tags.add(tag)
+
 
 
                 # when you submit one question, you are redirected back to the main page

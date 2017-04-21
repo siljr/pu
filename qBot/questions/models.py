@@ -23,7 +23,7 @@ class Question(models.Model):
     user_votes = models.TextField(editable=True, default='[]')  # JSON-text, works as a list of user in string-format
     pinned_by = models.ManyToManyField(User, related_name="pinned_py")
     button_list = models.ManyToManyField(User, related_name="active_button")
-    tags = TaggableManager()
+    tags = TaggableManager(blank=True)
 
     # adds a timestamp to the question posted
     def save(self, *args, **kwargs):
