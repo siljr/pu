@@ -147,7 +147,7 @@ def answers(request, question_id):
                 form = AnswerForm()
 
     answers = reversed(Answer.objects.filter(answer_to=question).order_by('created_at'))
-    context = {'question': question, 'answers': answers}  # Including one question and zero or more answers
+    context = {'question': question, 'answers': answers, 'myanswers': Answer.objects.filter(user=request.user) }  # Including one question and zero or more answers
     return render(request, 'answers.html', context, {'form': form, })
 
 #    return redirect('/questions')

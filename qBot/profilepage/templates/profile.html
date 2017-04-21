@@ -47,6 +47,8 @@
 /* Landscape phones and down */
 @media (max-width: 480px) {
 }
+
+
 </style>
 
 
@@ -96,6 +98,12 @@
   </div>
 </div>
 
+<style>
+
+    .progress {height: 50px !important;}
+
+</style>
+
   </div>
         <div class="col-sm-4">
             <div class="panel panel-default">
@@ -112,12 +120,31 @@
                             {% endif %}
                         {%  endfor %}
                     {% else %}
-                    <p>No questions asked</p>
+                    <br>
+                    <p>&nbsp; No questions asked</p>
                     {% endif %}
             </div>
         </div>
-    </div>
+    <div class="col-sm-8">
 
-    </div>
+        <h2>Progress exercise passing</h2>
+        {% if progress > 0 %}
+        <div class="progress">
+            <div class="progress-bar progress-bar-success progress-bar-striped active" role="progressbar" aria-valuenow="40"
+                    aria-valuemin="0" aria-valuemax="100" style="width: {{ progress }}%">
+                <h4 style="color:#FFF">{{ progress }} % Complete<h4/>
+
+            {% else %}
+                    <h4> Not enough points yet. </h4> </h4>
+            {% endif %}
+            </div>
+
+        </div>
+        {% if progress == 100 %}
+        <h4>You have passed one exercise. Congratulations!</h4>
+        {% endif %}
+        </div>
+    <div/>
+</div>
 
 {% endblock %}

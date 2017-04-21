@@ -20,12 +20,16 @@
                         </div>
 
                     {#gets the body of the answer#}
+
+
                     <div class="panel-body">
 
                         {{ answer.body }}
                         <div style="float: right";>
-
-                        <a href="/questions/1234?answer={{ answer.id }}&question={{ question.id }}&votetype=up" type="button"
+                        {% if answer in myanswers %}
+                        <b> Your answer. {{ answer.votes }} points. </b>
+                            {% else %}
+                            <a href="/questions/1234?answer={{ answer.id }}&question={{ question.id }}&votetype=up" type="button"
                             {% if user in answer.button_up.all %}
                                    class="btn btn-success btn active"
                                         {% else %}
@@ -43,6 +47,8 @@
                                         {% endif %}>
                                     <span class="glyphicon glyphicon-chevron-down"></span>
                                 </a>
+                            {% endif %}
+
                         </div>
                         <br>
                     </div>
