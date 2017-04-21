@@ -101,7 +101,6 @@ def answer_vote(request):
                 answer.button_up.remove(user)
             else:
                 if answer.is_in_user_votes_down(user):
-                    print("sup inne i her 1")
                     answer.button_down.remove(user)
                 answer.upvote_answer(user)
                 answer.button_up.add(user)
@@ -115,7 +114,6 @@ def answer_vote(request):
                 answer.button_down.remove(user)
             else:
                 if answer.is_in_user_votes_up(user):
-                    print("sup inne i her 2")
                     answer.button_up.remove(user)
                 answer.downvote_answer(user)
                 answer.button_down.add(user)
