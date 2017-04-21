@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'qBot',
     'registrationApp',
     'questions',
-    'profilepage'
+    'profilepage',
     'taggit'
 ]
 
