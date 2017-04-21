@@ -8,53 +8,46 @@
         <div class="inputForm">
             <h1>{{ question.title }}</h1>
             {# Question body #}
-            <p class="lead">{{ question.body}}</p>
+            <p style="font-size: 18px">{{ question.body}}</p>
 
             {# Loop over previous answers (by time?) #}
             {% if answers %}
                 {% for answer in answers %}
-{#                    panel is a standard bootstrap box with a grey header #}
+                    {#panel is a standard bootstrap box with a blue header #}
                     <div class="panel panel-info">
-                        <div class="panel-heading">
-                              {{ answer.created_at }}
+                        <div class="panel-heading" style="font-size: 11px">
+                              {{ answer.created_at|date:"D d.m.y G:H " }}
                         </div>
 
                     {#gets the body of the answer#}
-                    <div class="panel-body">
-
-                        {{ answer.body }}
-                        <div style="float: right";>
-
-                        <a href="/questions/1234?answer={{ answer.id }}&question={{ question.id }}&votetype=up" type="button"
-                            {% if user in answer.button_up.all %}
-                                   class="btn btn-success btn active"
-                                        {% else %}
-                                   class="btn btn-default btn "
-                                        {% endif %}>
+                        <div class="panel-body">
+                            {{ answer.body }}
+                            <div style="float: right";>
+                                <a href="/questions/1234?answer={{ answer.id }}&question={{ question.id }}&votetype=up" type="button"
+                                    {% if user in answer.button_up.all %}
+                                        class="btn btn-success btn active"
+                                    {% else %}
+                                        class="btn btn-default btn "
+                                    {% endif %}>
                                     <span class="glyphicon glyphicon-chevron-up"></span>
                                 </a>
-                        {{ answer.votes }}
+                            {{ answer.votes }}
 
-                        <a href="/questions/1234?answer={{ answer.id }}&question={{ question.id }}&votetype=down" type="button"
-                           {% if user in answer.button_down.all %}
+                            <a href="/questions/1234?answer={{ answer.id }}&question={{ question.id }}&votetype=down" type="button"
+                                {% if user in answer.button_down.all %}
                                    class="btn btn-danger btn active "
                                         {% else %}
                                    class="btn btn-default btn "
                                         {% endif %}>
                                     <span class="glyphicon glyphicon-chevron-down"></span>
-                                </a>
+                            </a>
+                            </div><br>
                         </div>
-                        <br>
                     </div>
-                    </div>
-
                 {%  endfor %} {# answers #}
             {% else %} {# answers #}
                 <div class="panel-body"> No answers yet! </div> {# Change the style here #}
             {% endif %} {# answers #}
-
-
-
 
             {# Answer input field #}
 
