@@ -17,7 +17,7 @@
                         <div class="panel panel-info">
 {#                            defines what is in the header#}
                             <div class="panel-heading" >
-{#                            the pin button#}
+                                {# pin button#}
                                 <a href="/questions/pin?question={{ question.id }}"
                                         {% if user in question.pinned_by.all %}
                                             style="color:gold"
@@ -27,43 +27,44 @@
                                     type="button" class="btn btn-default btn pull-right">
                                     <span class="glyphicon glyphicon-pushpin" aria-hidden="true" ></span>
                                 </a>
-{#                                get the text from the title from the object #}
+
+                                {# vote button#}
+                                <a href="/questions/vote?question={{ question.id }}&votetype=up" type="button"
+                                    {% if user in question.button_list.all %}
+                                   class="btn btn-default btn active pull-right"
+                                        {% else %}
+                                   class="btn btn-default btn pull-right"
+                                        {% endif %}>
+                                    Vote <span class=badge">{{ question.votes }}</span>
+                                </a>
+
+                                {#Date and time#}
+                                    <div style="font-size: 11px">{{ question.created_at|date:"D d.m.y G:H " }}</div>
+
+                                {#get the text from the title from the object #}
                                 <a href="/questions/{{ question.id }}">
                                 <h2 class="panel-title" href="/questions/{{ question.id }}"><font color="#406284">{{ question.title }}</font></h2>
-
-
                                 </a>
-                                {{ question.created_at|date:"D d.m.y G:H " }}
-
-                                {# Link to answers below #}
-                                <div>
-                                    {% if question.answer_to.count == 1 %}
-                                        <a href="/questions/{{ question.id }}"><span class="badge">{{ question.answer_to.count }}</span> answer</a>
-                                    {% elif question.answer_to.count > 1 %}
-                                        <a href="/questions/{{ question.id }}"><span class="badge">{{ question.answer_to.count }}</span> answers</a>
-                                    {% else %}
-                                        <a href="/questions/{{ question.id }}">Be the first to answer!</a>
-                                    {% endif %}
-                                </div>
                             </div>
 
                             {# gets the text from the body of the question #}
                             <div class="panel-body">
-                                {{ question.body|readmore:15}}
+                                {{ question.body|readmore:30}}
                             </div>
 
-{#                            start of footer#}
+                            {#start of footer#}
                             <div class="panel-footer">
-                                <b>I was wondering the same</b>
-                                <a href="/questions/vote?question={{ question.id }}&votetype=up" type="button"
-                                    {% if user in question.button_list.all %}
-                                   class="btn btn-default btn-sm active"
-                                        {% else %}
-                                   class="btn btn-default btn-sm"
-                                        {% endif %}>
-                                    I want to know <span class=badge">{{ question.votes }}</span>
-                                </a>
-                                {{ question.votes }}
+                                {# Link to answers below #}
+                                <div>
+                                    {% if question.answer_to.count == 1 %}
+                                        <a href="/questions/{{ question.id }}"><span class="badge">{{ question.answer_to.count }}</span> Answer</a>
+                                    {% elif question.answer_to.count > 1 %}
+                                        <a href="/questions/{{ question.id }}"><span class="badge">{{ question.answer_to.count }}</span> Answers</a>
+                                    {% else %}
+                                        <a href="/questions/{{ question.id }}">Be the first to answer!</a>
+                                    {% endif %}
+                                </div>
+
                                 <br>
                                 {# Add a tag section #}
                                 <div>
@@ -74,8 +75,6 @@
                                         {% endfor %}
                                     {% endif %}
                                 </div>
-                            </div>
-                            <div>
 
                             </div>
                         </div>
