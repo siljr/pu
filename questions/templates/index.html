@@ -24,7 +24,7 @@
                                         {% else %}
                                             style="color:black"
                                         {% endif %}
-                                    type="button" class="btn btn-default btn-sm pull-right">
+                                    type="button" class="btn btn-default btn pull-right">
                                     <span class="glyphicon glyphicon-pushpin" aria-hidden="true" ></span>
                                 </a>
 {#                                get the text from the title from the object #}
@@ -34,11 +34,25 @@
 
                                 </a>
                                 {{ question.created_at|date:"D d.m.y G:H " }}
+
+                                {# Link to answers below #}
+                                <div>
+                                    {% if question.answer_to.count == 1 %}
+                                        <a href="/questions/{{ question.id }}"><span class="badge">{{ question.answer_to.count }}</span> answer</a>
+                                    {% elif question.answer_to.count > 1 %}
+                                        <a href="/questions/{{ question.id }}"><span class="badge">{{ question.answer_to.count }}</span> answers</a>
+                                    {% else %}
+                                        <a href="/questions/{{ question.id }}">Be the first to answer!</a>
+                                    {% endif %}
+                                </div>
                             </div>
+
                             {# gets the text from the body of the question #}
                             <div class="panel-body">
                                 {{ question.body|readmore:15}}
                             </div>
+
+{#                            start of footer#}
                             <div class="panel-footer">
                                 <b>I was wondering the same</b>
                                 <a href="/questions/vote?question={{ question.id }}&votetype=up" type="button"
@@ -47,18 +61,10 @@
                                         {% else %}
                                    class="btn btn-default btn-sm"
                                         {% endif %}>
-                                    <span class="glyphicon glyphicon-ok"></span>
+                                    I want to know <span class=badge">{{ question.votes }}</span>
                                 </a>
                                 {{ question.votes }}
                                 <br>
-                                {# Link to answers below #}
-                                {% if question.answer_to.count == 1 %}
-                                    <a href="/questions/{{ question.id }}"><span class="badge">{{ question.answer_to.count }}</span> answer</a>
-                                {% elif question.answer_to.count > 1 %}
-                                    <a href="/questions/{{ question.id }}"><span class="badge">{{ question.answer_to.count }}</span> answers</a>
-                                {% else %}
-                                    <a href="/questions/{{ question.id }}">Be the first to answer!</a>
-                                {% endif %}
                                 {# Add a tag section #}
                                 <div>
                                     <b>Tags:</b>
