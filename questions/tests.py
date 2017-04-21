@@ -24,7 +24,6 @@ class QuestionLoginTestCase(TestCase):
                          {'username': 'test', 'first_name': 'test', 'last_name': 'test',
                           'email': 'test@test.no', 'password1': 'password123',
                           'password2': 'password123'}, follow=True)
-        print(test.request['PATH_INFO'])
         # login with username test
         response = self.client.post('/login/', {'username': 'test', 'password': 'password123'}, follow=True)
         self.assertEqual(response.status_code, 200)
@@ -79,8 +78,6 @@ class QuestionsCreateTestCase(TestCase):
     def test_questions_page(self):
 
         response = self.client.get(reverse('questions:index'), follow=True)
-
-        # print(response.context["questions"])
 
         # check if index.html is in the list of used templates
         self.assertTemplateUsed(response, 'index.html')
