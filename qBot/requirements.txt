@@ -1,0 +1,10 @@
+dj-database-url==0.4.2
+django==1.11rc1
+django-taggit==0.22.0
+gunicorn==19.7.1
+psycopg2==2.7.1
+whitenoise==3.3.0
+appdirs==1.4.0
+packaging==16.8
+pyparsing==2.1.10
+six==1.10.0
