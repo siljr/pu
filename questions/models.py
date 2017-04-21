@@ -10,46 +10,54 @@ import json
 from taggit.managers import TaggableManager
 from django.template.defaultfilters import slugify
 
-
-
-# making the question model to contain theese things
+# The question class containing multiple data and methods
 class Question(models.Model):
+
+    # Basic and essential data
     title = models.CharField(max_length=128)
     body = models.TextField()
-    created_at = models.DateTimeField(null=True, blank=True)
-    # sets a connection to a user
+    created_at = models.DateTimeField(null=True, blank=True)  # is being set at save method
+
+    # Connection to the user making the question
     user = models.ForeignKey(settings.AUTH_USER_MODEL, default=1, related_name='question_made_by')
-    votes = models.IntegerField(default = 0)
+
+    # Data for votes, including voters and vote counter
     user_votes = models.TextField(editable=True, default='[]')  # JSON-text, works as a list of user in string-format
+    votes = models.IntegerField(default = 0)
+    button_list = models.ManyToManyField(User, related_name="active_button")  # Upvote button.
+
+    # Field for Users who has marked this as one of their favourite questions
     pinned_by = models.ManyToManyField(User, related_name="pinned_py")
-    button_list = models.ManyToManyField(User, related_name="active_button")
+
+    # The tags
     tags = TaggableManager(blank=True)  # Tags are optional
 
-    # adds a timestamp to the question posted
+    # Adds a timestamp to the question posted
     def save(self, *args, **kwargs):
         if self.created_at is None:
             self.created_at = timezone.now()
         super().save(*args, **kwargs)
 
+    # String method used e.g. in admin panel
     def __str__(self):
         return str(self.id) + '. ' + self.title
-    # upvotes the question
+
+    # Upvotes the question
     def upvote_question(self, user):
         self.votes += 1
         jsonDec = json.decoder.JSONDecoder()
-        liste = jsonDec.decode(self.user_votes) #decodes the JSON-text to a list
-        liste.append(str(user))                 #appends the user
-        self.user_votes = json.dumps(liste)     #encodes the list to JSON-string, user_votes
+        liste = jsonDec.decode(self.user_votes)     # decodes the JSON-text to a list
+        liste.append(str(user))                     # appends the user
+        self.user_votes = json.dumps(liste)         # encodes the list to JSON-string, user_votes
         self.save()
 
-    # downvotes the question
+    # Downvotes the question
     def downvote_question(self, user):
         self.votes -= 1
-        user_list = self.create_json_list(self.user_votes)  #opposit as upvote (check above)
+        user_list = self.create_json_list(self.user_votes)  # opposite of upvote (check above)
         user_list.remove(str(user))
         self.user_votes = self.create_json_str(user_list)
         self.save()
-
 
     # Checks if user is in user_votes
     def is_in_user_votes(self, user):
@@ -59,36 +67,41 @@ class Question(models.Model):
         else:
             return False
 
-
     # creates a list from the JSON-text format
     def create_json_list(self, input):
         jsonDec = json.decoder.JSONDecoder()
         return jsonDec.decode(input)
 
-
     # creates a JSON-text from a list
     def create_json_str(self, input):
         return json.dumps(input)
 
-
+# The answer class containing multiple data and methods
 class Answer(models.Model):
+
+    # Basic and essential data
     body = models.TextField()
     created_at = models.DateTimeField(null=True, blank=True)
+
+    # Connection to the user giving the answer
     user = models.ForeignKey(settings.AUTH_USER_MODEL, default=1, related_name='answer_made_by')
+
+    # Connection to the question being answered
     answer_to = models.ForeignKey(Question, related_name='answer_to')
+
+    # Vote counter and fields for voting up and down
     votes = models.IntegerField(default=0)
     user_votes_up = models.TextField(editable=True,default='[]')  # JSON-text, works as a list of user in string-format 
     user_votes_down = models.TextField(editable=True, default='[]')# JSON-text, works as a list of user in string-format 
     button_up = models.ManyToManyField(User, related_name= 'up_button')
     button_down = models.ManyToManyField(User, related_name= 'down_button')
 
-    # adds a timestamp to the question posted
+    # Adds a timestamp to the answer posted
     def save(self, *args, **kwargs):
+
         if self.created_at is None:
             self.created_at = timezone.now()
         super().save(*args, **kwargs)
-
-
 
     def upvote_answer(self, user):
 
@@ -103,74 +116,70 @@ class Answer(models.Model):
             self.votes += 2
         else:
             self.votes += 1
-
-
         self.save()
 
     def downvote_answer(self, user):
 
-        user_list_down = self.create_json_list(self.user_votes_down)  # opposite as upvote (check above) 
+        user_list_down = self.create_json_list(self.user_votes_down)  # opposite of upvote (check above) 
         user_list_down.append(str(user))
-
 
         if self.is_in_user_votes_up(user):
             user_list_up = self.create_json_list(self.user_votes_up)
             user_list_up.remove(str(user))
             self.user_votes_up = self.create_json_str(user_list_up)
-            self.votes -= 2
+            self.votes -= 2  # Subtracting 2 as the user already had voted up
         else:
             self.votes -= 1
 
         self.user_votes_down = self.create_json_str(user_list_down)
         self.save()
 
-
     def upvote_regret(self, user):
+
         self.votes += 1
         user_list_down = self.create_json_list(self.user_votes_down)
         user_list_down.remove(str(user))
         self.user_votes_down = self.create_json_str(user_list_down)
         self.save()
 
-
     def downvote_regret(self, user):
+
         self.votes -= 1
         user_list_up = self.create_json_list(self.user_votes_up)
         user_list_up.remove(str(user))
         self.user_votes_up = self.create_json_str(user_list_up)
         self.save()
 
-
     def is_in_user_votes_up(self, user):
+
         user_list_up = self.create_json_list(self.user_votes_up)
+
         if str(user) in user_list_up:
             return True
         else:
             return False
 
     def is_in_user_votes_down(self, user):
+
         user_list_down = self.create_json_list(self.user_votes_down)
+
         if str(user) in user_list_down:
             return True
         else:
             return False
 
-            # creates a list from the JSON-text format
-
+    # Creates a list from the JSON-text format
     def create_json_list(self, input):
         jsonDec = json.decoder.JSONDecoder()
         return jsonDec.decode(input)
 
-
-        # creates a JSON-text from a list
-
+    # Creates a JSON-text from a list
     def create_json_str(self, input):
         return json.dumps(input)
 
 
-
-
 class UserVotes(models.Model):
+
     user = models.ForeignKey(User, related_name="user_votes")
     question = models.ForeignKey(Question, related_name="question_votes")
     vote_type = models.CharField(max_length=16)
@@ -178,6 +187,3 @@ class UserVotes(models.Model):
     class Meta:
         unique_together = ('user', 'question', 'vote_type')
 
-
-
-#<a href="/questions/vote?question={{ question.id }}&votetype=up" id ="approve_button" type="button" {% if active_button == "True"%} class="btn btn-default btn- active" {% else%} class="btn btn-default btn" {% endif %} >
