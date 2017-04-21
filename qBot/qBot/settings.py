@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'registrationApp',
     'questions',
     'profilepage'
+    'taggit'
 ]
 
 MIDDLEWARE = [
