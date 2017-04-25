@@ -26,8 +26,16 @@
 
                         {{ answer.body }}
                         <div style="float: right";>
+
+                        {# Checks if answer is your own answer to prevent from up-/downvoting#}
                         {% if answer in myanswers %}
-                        <b> Your answer. {{ answer.votes }} points. </b>
+                            <a type="button" class="btn btn-default btn- active ">
+                                    <span class="glyphicon glyphicon-chevron-up"></span>
+                                </a>
+                        {{ answer.votes }}
+                            <a type="button" class="btn btn-default btn- active ">
+                                    <span class="glyphicon glyphicon-chevron-up"></span>
+                                </a>
                             {% else %}
                             <a href="/questions/1234?answer={{ answer.id }}&question={{ question.id }}&votetype=up" type="button"
                             {% if user in answer.button_up.all %}
@@ -58,8 +66,6 @@
             {% else %} {# answers #}
                 <div class="panel-body"> No answers yet! </div> {# Change the style here #}
             {% endif %} {# answers #}
-
-
 
 
             {# Answer input field #}

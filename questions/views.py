@@ -86,12 +86,12 @@ def vote(request):
 
         if request.GET.get('votetype', '') == 'up':
 
-            if question.is_in_user_votes(user):  # The user has already voted up
-                question.downvote_question(user)
-                question.button_list.remove(user)
+            if question.is_in_user_votes(user):     #The user has already voted up
+                question.downvote_question(user)    #The upvote will be removed (hence downvote)
+                question.button_list.remove(user)   #Removes the user from active button list
             else:
-                question.upvote_question(user)
-                question.button_list.add(user)
+                question.upvote_question(user)      #Upvotes question
+                question.button_list.add(user)      #Adds the user to upvote list
 
     return redirect('/questions')
 
@@ -106,17 +106,17 @@ def answer_vote(request):
 
         if request.GET.get('votetype', '') == 'up':
 
-            if answer.is_in_user_votes_up(user):
-                answer.downvote_regret(user)
-                answer.button_up.remove(user)
+            if answer.is_in_user_votes_up(user):            #If user already has voted up
+                answer.downvote_regret(user)                #Vote answer down
+                answer.button_up.remove(user)               #Remove user from active button list
             else:
-                if answer.is_in_user_votes_down(user):
-                    answer.button_down.remove(user)
+                if answer.is_in_user_votes_down(user):      #If user already has voted down
+                    answer.button_down.remove(user)         #Remove user form downvote list
 
-                answer.upvote_answer(user)
-                answer.button_up.add(user)
+                answer.upvote_answer(user)                  #Upvote answer
+                answer.button_up.add(user)                  #Add the user to upvote list
 
-        elif request.GET.get('votetype', '') == 'down':
+        elif request.GET.get('votetype', '') == 'down':     #Same as request = 'up' only opposite.
 
             if answer.is_in_user_votes_down(user):
                 answer.upvote_regret(user)
