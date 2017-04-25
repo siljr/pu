@@ -25,7 +25,6 @@
                             {{ answer.body }}
                             <div style="float: right";>
 
-
 {#                         Checks if answer is your own answer to prevent from up-/downvoting#}
                             {% if answer in myanswers %}
                                 <a type="button" class="btn btn-default btn- active ">
@@ -35,22 +34,28 @@
                                 <a type="button" class="btn btn-default btn- active ">
                                     <span class="glyphicon glyphicon-chevron-up"></span>
                                 </a>
+
                             {% else %}
-                                <a type="button" class="btn btn-default  ">
+                                <a href="/questions/1234?answer={{ answer.id }}&question={{ question.id }}&votetype=up" type="button"
+                                    {% if user in answer.button_up.all %}
+                                        class="btn btn-success btn active"
+                                    {% else %}
+                                        class="btn btn-default btn "
+                                    {% endif %}>
+
                                     <span class="glyphicon glyphicon-chevron-up"></span>
                                 </a>
-                            {{ answer.votes }}
-                            <a href="/questions/1234?answer={{ answer.id }}&question={{ question.id }}&votetype=down" type="button"
-                                {% if user in answer.button_down.all %}
-                                   class="btn btn-danger btn active "
-                                        {% else %}
-                                   class="btn btn-default btn "
-                                        {% endif %}>
-                                    <span class="glyphicon glyphicon-chevron-down"></span>
-                            </a>
+                                {{ answer.votes }}
+                                <a href="/questions/1234?answer={{ answer.id }}&question={{ question.id }}&votetype=down" type="button"
+                                    {% if user in answer.button_down.all %}
+                                       class="btn btn-danger btn active "
+                                            {% else %}
+                                       class="btn btn-default btn "
+                                            {% endif %}>
+                                        <span class="glyphicon glyphicon-chevron-down"></span>
+                                </a>
                             {%  endif %}
                             </div><br>
-
                         </div>
                     </div>
                 {%  endfor %} {# answers #}
