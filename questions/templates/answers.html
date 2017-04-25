@@ -20,6 +20,7 @@
                         </div>
 
                     {#gets the body of the answer#}
+
                         <div class="panel-body">
                             {{ answer.body }}
                             <div style="float: right";>
@@ -29,6 +30,7 @@
                                     {% else %}
                                         class="btn btn-default btn "
                                     {% endif %}>
+
                                     <span class="glyphicon glyphicon-chevron-up"></span>
                                 </a>
                             {{ answer.votes }}
@@ -40,8 +42,10 @@
                                    class="btn btn-default btn "
                                         {% endif %}>
                                     <span class="glyphicon glyphicon-chevron-down"></span>
+
                             </a>
                             </div><br>
+
                         </div>
                     </div>
                 {%  endfor %} {# answers #}
