@@ -64,9 +64,14 @@ def register_question(request):
 
                 # Adding tags one by one
                 if tags:
-                    t = tags.split(",")
-                    for tag in t:
-                        quest.tags.add(tag)
+                    if "," in tags:
+                        t = tags.split(",")
+                        for tag in t:
+                            quest.tags.add(tag)
+                    else:
+                        t =tags.split(" ")
+                        for tag in t:
+                            quest.tags.add(tag)
 
                 # After submitting a question you are redirected back to the main page
                 return redirect('/questions')
@@ -223,7 +228,7 @@ def pin(request):
 class TagIndexView(generic.ListView):
     template_name = 'index.html'
     model = Question
-    paginate_by = 10
+    # paginate_by = 10
     context_object_name = 'questions'
 
     def get_queryset(self):
