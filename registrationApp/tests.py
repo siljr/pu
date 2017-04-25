@@ -1,6 +1,8 @@
 from django.test import TestCase
 from django.core.urlresolvers import reverse
 
+from registrationApp.forms import RegistrationForm
+
 
 class RegisterAppTestCase(TestCase):
     # Test to see if the status code is OK for the registerApp page
@@ -43,3 +45,9 @@ class RegisterAppTestCase(TestCase):
                                     {'username': 'test', 'email': 'test@test', 'password1': 'test',
                                      'password2': 'test1'}, follow=True)
         self.assertNotEqual(response.request['PATH_INFO'], 'login')
+
+    def test_form_is_valid(self):
+        form = RegistrationForm({'username': 'test', 'first_name': 'test', 'last_name': 'test',
+                                 'email': 'test@test.no', 'password1': 'password123',
+                                     'password2': 'password123'})
+        self.assertTrue(form.is_valid())
