@@ -223,7 +223,7 @@ def pin(request):
 class TagIndexView(generic.ListView):
     template_name = 'index.html'
     model = Question
-    paginate_by = 10
+    # paginate_by = 10
     context_object_name = 'questions'
 
     def get_queryset(self):

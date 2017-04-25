@@ -57,49 +57,35 @@ class QuestionLoginTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.request["PATH_INFO"], "/login/")
 
-
-class QuestionsCreateTestCase(TestCase):
-    # setup a user
     def setUp(self):
         # create user with username test
         self.client.post('/register/',
-                         {'username': 'test','first_name': 'test','last_name': 'test',
-                          'email': 'test@test.no', 'password1': 'password123',
-                          'password2': 'password123'}, follow=True)
-
+                         {'username': 'test', 'email': 'test@test.no', 'password1': 'test',
+                          'password2': 'test'}, follow=True)
         # login with username test
-        self.client.login(username="test", password="password123")
+        self.client.login(username="test", password="test")
 
-        # Create question objects
-        Question.objects.create(title = "tittel", body = "ipsum lorem")
-        Question.objects.create(title="tittel2", body="ipsum lorem2")
+        # make a question
+        self.client.post('/questions/create_question/',
+                         {'title': 'title', 'body': 'Ipsum lorem', 'tags': 'ipsum,test'})
 
-    # tests if questions page is empty
-    def test_questions_page(self):
+    def create_object(self):
+        return Question.objects.create(title = 'test', body = 'this is only a test', tags = 'valid,tags')
 
-        response = self.client.get(reverse('questions:index'), follow=True)
+    def test_answers(self):
+        # check if answer view is working
+        response = self.client.get('/questions/1/', follow=True)
 
-        # check if index.html is in the list of used templates
-        self.assertTemplateUsed(response, 'index.html')
+        self.assertEqual(response.status_code, 200)
 
-        # get all titles
-        all = Question.objects.all()
-        allQ = [x.title for x in all]
+    def test_tags(self):
+        # check if tag views are working
+        response = self.client.get('/questions/tag/test/')
 
-        # see if the right title is in the object list
-        self.assertIn("tittel", allQ)
+        self.assertEqual(response.status_code, 200)
 
-        # see if the number of Question objects is correct
-        self.assertEqual(len(allQ), 2)
+    def test_myquestions(self):
+        # check if myquestions view is working
+        response = self.client.get('/questions/myquestions/', follow=True)
 
-    def test_add_question(self):
-        # tests to see if title and body is correct
-        q1 = Question.objects.get(title = "tittel")
-
-        self.assertEqual(q1.body, "ipsum lorem")
-        q2 = Question.objects.get(title = "tittel2")
-        self.assertEqual(q2.body, "ipsum lorem2")
-
-    def test_question_object(self):
-        q1 = Question.objects.get(title = "tittel")
-        self.assertEqual(q1.user.__str__(), "test")
+        self.assertEqual(response.status_code, 200)
