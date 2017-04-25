@@ -11,17 +11,15 @@ class QuestionsCreateTestCase(TestCase):
         # create user with username test
 
         self.user = User.objects.create_superuser('admin', 'test@test.com', 'password123')
-        #self.client.post('/register/',
-                         #{'username': 'test','first_name': 'test','last_name': 'test',
-                         # 'email': 'test@test.no', 'password1': 'password123',
-                         # 'password2': 'password123'}, follow=True)
 
         # login with username test
         self.client.login(username="admin", password="password123")
 
         # Create question objects
-        Question.objects.create(title = "tittel", body = "ipsum lorem")
-        Question.objects.create(title="tittel2", body="ipsum lorem2")
+        q = Question.objects.create(title = "tittel", body = "ipsum lorem")
+        q.tags.add("test")
+        q2 = Question.objects.create(title="tittel2", body="ipsum lorem2")
+        q2.tags.add("ipsum", "lorem")
 
     # tests if questions page is empty
     def test_questions_page(self):
@@ -65,6 +63,16 @@ class QuestionsCreateTestCase(TestCase):
         q1.downvote_question(self.user)
         self.assertEqual(q1.votes, 0)
         self.assertNotIn(self.user.__str__(), q1.user_votes)
+
+    def test_tag(self):
+        q1 = Question.objects.get(title="tittel")
+
+        self.assertIn("test", q1.tags.names())
+        self.assertNotIn("ipsum", q1.tags.names())
+
+        q2 = Question.objects.get(title="tittel2")
+        self.assertIn("ipsum", q2.tags.names())
+        self.assertNotIn("test", q2.tags.names())
 
     class QuestionsAnswerTestCase(TestCase):
         def setUp(self):

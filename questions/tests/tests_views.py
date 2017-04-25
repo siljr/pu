@@ -3,6 +3,7 @@ from django.test import Client
 from django.core.urlresolvers import reverse
 
 from questions.models import Question
+from django.contrib.auth.models import User
 
 
 class QuestionLoginTestCase(TestCase):
@@ -89,3 +90,38 @@ class QuestionLoginTestCase(TestCase):
         response = self.client.get('/questions/myquestions/', follow=True)
 
         self.assertEqual(response.status_code, 200)
+
+class TestSortAndPin(TestCase):
+    def setUp(self):
+        # create user with username test
+
+        self.user = User.objects.create_superuser('admin', 'test@test.com', 'password123')
+
+        # login with username test
+        self.client.login(username="admin", password="password123")
+
+        self.q = Question.objects.create(title="tittel", body="body test")
+        Question.objects.create(title="tittel2", body="ipsum lorem")
+
+
+    def test_pinned_questions(self):
+        response = self.client.get("/questions/pinned/", follow=True)
+
+        self.assertEqual(response.status_code, 200)
+
+    def test_newest_sort(self):
+        response = self.client.get("/questions/newest/", follow=True)
+
+        self.assertEqual(response.status_code, 200)
+
+    def test_oldest_sort(self):
+        response = self.client.get("/questions/oldest/", follow=True)
+
+        self.assertEqual(response.status_code, 200)
+
+    def test_votes_sort(self):
+        response = self.client.get("/questions/popular/", follow=True)
+
+        self.assertEqual(response.status_code, 200)
+
+

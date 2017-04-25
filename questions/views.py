@@ -64,9 +64,14 @@ def register_question(request):
 
                 # Adding tags one by one
                 if tags:
-                    t = tags.split(",")
-                    for tag in t:
-                        quest.tags.add(tag)
+                    if "," in tags:
+                        t = tags.split(",")
+                        for tag in t:
+                            quest.tags.add(tag)
+                    else:
+                        t =tags.split(" ")
+                        for tag in t:
+                            quest.tags.add(tag)
 
                 # After submitting a question you are redirected back to the main page
                 return redirect('/questions')
