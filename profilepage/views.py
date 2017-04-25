@@ -15,8 +15,10 @@ def index(request):
     # makes a dictionary containing all Question objects
     # tabs:newest as default setting
     votes = 0
+    #Gets the total number of votes for the user
     for answer in Answer.objects.filter(user = request.user):
         votes += answer.votes
+    #Progress is a number from 0-100 where 1 voter equals 10 in progress.
     progress = votes*10
     if progress > 100:
         progress = 100

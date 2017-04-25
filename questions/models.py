@@ -45,17 +45,16 @@ class Question(models.Model):
     # Upvotes the question
     def upvote_question(self, user):
         self.votes += 1
-        jsonDec = json.decoder.JSONDecoder()
-        liste = jsonDec.decode(self.user_votes)     # decodes the JSON-text to a list
-        liste.append(str(user))                     # appends the user
-        self.user_votes = json.dumps(liste)         # encodes the list to JSON-string, user_votes
+        user_list = self.create_json_list(self.user_votes)     # decodes the JSON-text to a list
+        user_list.append(str(user))                             # appends the user
+        self.user_votes = self.create_json_str(user_list)        # encodes the list to JSON-string, user_votes
         self.save()
 
     # Downvotes the question
     def downvote_question(self, user):
         self.votes -= 1
-        user_list = self.create_json_list(self.user_votes)  # opposite of upvote (check above)
-        user_list.remove(str(user))
+        user_list = self.create_json_list(self.user_votes)
+        user_list.remove(str(user))                             # same as of upvote_question(), only remove instead of append (check above)
         self.user_votes = self.create_json_str(user_list)
         self.save()
 
@@ -93,6 +92,8 @@ class Answer(models.Model):
     votes = models.IntegerField(default=0)
     user_votes_up = models.TextField(editable=True,default='[]')  # JSON-text, works as a list of user in string-format 
     user_votes_down = models.TextField(editable=True, default='[]')# JSON-text, works as a list of user in string-format 
+
+    # Lists to see if the user has voted for an answer (active button graphic)
     button_up = models.ManyToManyField(User, related_name= 'up_button')
     button_down = models.ManyToManyField(User, related_name= 'down_button')
 
@@ -103,14 +104,15 @@ class Answer(models.Model):
             self.created_at = timezone.now()
         super().save(*args, **kwargs)
 
+    # Upvote an answer. Similar to upvote_question, but some more logic.
     def upvote_answer(self, user):
 
         user_list_up = self.create_json_list(self.user_votes_up)  # decodes the JSON-text to a list 
         user_list_up.append(str(user))  # appends the user 
-        self.user_votes_up = self.create_json_str(user_list_up)
+        self.user_votes_up = self.create_json_str(user_list_up)     # encodes the list to JSON-string
 
-        if self.is_in_user_votes_down(user):
-            user_list_down = self.create_json_list(self.user_votes_down)
+        if self.is_in_user_votes_down(user):                                #removes user from downvote_list if user upvotes.
+            user_list_down = self.create_json_list(self.user_votes_down)    #Gives 2 points if user has already downvoted question, and 1 point if not.
             user_list_down.remove(str(user))
             self.user_votes_down = self.create_json_str(user_list_down)
             self.votes += 2
@@ -134,6 +136,7 @@ class Answer(models.Model):
         self.user_votes_down = self.create_json_str(user_list_down)
         self.save()
 
+    # Gives answer a point if user has already downvoted, but regrets this, and presses the downvote button one more time.
     def upvote_regret(self, user):
 
         self.votes += 1
@@ -142,6 +145,7 @@ class Answer(models.Model):
         self.user_votes_down = self.create_json_str(user_list_down)
         self.save()
 
+    # Same as above, only opposit. Substracts a point if you regret an upvote.
     def downvote_regret(self, user):
 
         self.votes -= 1
@@ -150,19 +154,19 @@ class Answer(models.Model):
         self.user_votes_up = self.create_json_str(user_list_up)
         self.save()
 
+    # Checks if user is in user_list_up
     def is_in_user_votes_up(self, user):
 
         user_list_up = self.create_json_list(self.user_votes_up)
-
         if str(user) in user_list_up:
             return True
         else:
             return False
 
+    # Checks if user in user_list_down
     def is_in_user_votes_down(self, user):
 
         user_list_down = self.create_json_list(self.user_votes_down)
-
         if str(user) in user_list_down:
             return True
         else:

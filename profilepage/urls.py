@@ -7,5 +7,5 @@ app_name = 'profilepage'
 
 urlpatterns = [
     url(r'^$', views.index, name='index')
-    #url(r'create_question', views.register_question, name='create_question'),
+
 ]
