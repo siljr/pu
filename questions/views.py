@@ -228,3 +228,17 @@ class TagIndexView(generic.ListView):
 
     def get_queryset(self):
         return Question.objects.filter(tags__slug=self.kwargs.get('slug'))
+
+
+def scores(request):
+    users = User.objects.all().order_by("username")
+    u_scores = []
+    for user in users:
+        u_answers = Answer.objects.filter(user=user)
+        score = 0
+        for answer in u_answers:
+            score += answer.votes
+        u_scores.append(score)
+    lists = zip(users, u_scores)
+    context = {'lists': lists}
+    return render(request, 'scores.html', context)

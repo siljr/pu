@@ -1,0 +1,25 @@
+{% extends  "qBot/base.html"  %}
+
+
+{% block content %}
+
+    <br>
+    <br>
+    <br>
+    <br>
+    {% if user.is_staff %}
+        First name&emsp; Last name&emsp;Username&emsp;Score <br>
+        {% for user, score  in lists %}
+            {{ user.first_name }}&emsp;{{ user.last_name }}&emsp;{{ user.username }}&emsp;{{ score }}<br>
+
+
+        {% endfor %}
+    {% else %}
+        You do not have permission to this page <br>
+        <a href="/questions/">Home</a>
+
+    {% endif %}
+
+
+
+{% endblock %}

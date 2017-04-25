@@ -30,5 +30,8 @@ urlpatterns = [
     url(r'pinned/$', views.pinned, name="pinned"),
 
     # urls for tags
-    url(r'tag/(?P<slug>\w+)/$', views.TagIndexView.as_view(), name='tagged')
+    url(r'tag/(?P<slug>\w+)/$', views.TagIndexView.as_view(), name='tagged'),
+
+    # scores page
+    url(r'^scores/', views.scores, name="scores")
 ]

@@ -55,6 +55,9 @@
                     </form>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
+                    {% if user.is_staff %}
+                        <li><a href="/questions/scores">Scores</a></li>
+                    {% endif %}
                     <li><a href="/profile/">Profile</a></li>
                     <li><a href="/logout">Log out</a></li>
                     <li><a href="/about/">About</a></li>
