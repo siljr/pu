@@ -17,8 +17,13 @@ def index(request):
     votes = 0
     for answer in Answer.objects.filter(user = request.user):
         votes += answer.votes
+    progress = votes*10
+    if progress > 100:
+        progress = 100
+    elif progress < 0:
+        progress = 0
 
-    context = {'questions': Question.objects.filter(user = request.user), 'answers': Answer.objects.filter(user = request.user), 'tabs':'newest', 'myQ':'true', 'votes':votes}
+    context = {'questions': Question.objects.filter(user = request.user), 'answers': Answer.objects.filter(user = request.user), 'tabs':'newest', 'myQ':'true', 'votes':votes, 'progress': progress}
 
     #search mechanism with Q lookups
     query = request.GET.get("q")
