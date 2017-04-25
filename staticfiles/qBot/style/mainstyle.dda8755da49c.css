@@ -1,0 +1,33 @@
+.inputForm {
+    border-radius: 10px;
+    background-color: #f2f2f2;
+    padding: 10px 20px;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.container {
+    margin-top: 70px;
+}
+
+
+.inputForm [type=submit] {
+    margin: 10px auto;
+}
+
+.inputForm input[type=text]{
+
+}
+
+.vresize {
+    resize: vertical;
+}
+
+#logo img {
+    width: 45px;
+    margin-top: -13px;
+}
+
+.panel-body {
+    word-wrap: break-word;
+}

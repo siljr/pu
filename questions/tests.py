@@ -20,14 +20,15 @@ class QuestionLoginTestCase(TestCase):
     # tests to see if successful login redirects you to /questions/ page
     def test_successful_login(self):
         # create user with username test
-        self.client.post('/register/',
-                         {'username': 'test', 'email': 'test@test.no', 'password1': 'test',
-                          'password2': 'test'}, follow=True)
-
+        test = self.client.post('/register/',
+                         {'username': 'test', 'first_name': 'test', 'last_name': 'test',
+                          'email': 'test@test.no', 'password1': 'password123',
+                          'password2': 'password123'}, follow=True)
         # login with username test
-        response = self.client.post('/login/', {'username': 'test', 'password': 'test'}, follow=True)
+        response = self.client.post('/login/', {'username': 'test', 'password': 'password123'}, follow=True)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.request['PATH_INFO'], '/questions/')
+
 
     # tests if login attempt is unsuccessful
     def test_unsuccessful_login(self):
@@ -62,11 +63,12 @@ class QuestionsCreateTestCase(TestCase):
     def setUp(self):
         # create user with username test
         self.client.post('/register/',
-                         {'username': 'test', 'email': 'test@test.no', 'password1': 'test',
-                          'password2': 'test'}, follow=True)
+                         {'username': 'test','first_name': 'test','last_name': 'test',
+                          'email': 'test@test.no', 'password1': 'password123',
+                          'password2': 'password123'}, follow=True)
 
         # login with username test
-        self.client.login(username="test", password="test")
+        self.client.login(username="test", password="password123")
 
         # Create question objects
         Question.objects.create(title = "tittel", body = "ipsum lorem")
@@ -76,8 +78,6 @@ class QuestionsCreateTestCase(TestCase):
     def test_questions_page(self):
 
         response = self.client.get(reverse('questions:index'), follow=True)
-
-        # print(response.context["questions"])
 
         # check if index.html is in the list of used templates
         self.assertTemplateUsed(response, 'index.html')
