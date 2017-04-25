@@ -39,7 +39,7 @@
                                 </a>
 
                                 {#Date and time#}
-                                    <div style="font-size: 11px">{{ question.created_at|date:"D d.m.y G:H " }}</div>
+                                    <div style="font-size: 11px">{{ question.created_at|date:"D d.m.y H:i " }}</div>
 
                                 {#get the text from the title from the object #}
                                 <a href="/questions/{{ question.id }}">

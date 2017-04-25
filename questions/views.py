@@ -159,7 +159,7 @@ def answers(request, question_id):
             else:
                 form = AnswerForm()
 
-    answers = reversed(Answer.objects.filter(answer_to=question).order_by('created_at'))
+    answers = Answer.objects.filter(answer_to=question).order_by('created_at')
     context = {'question': question, 'answers': answers, 'myanswers': Answer.objects.filter(user=request.user) }  # Including one question and zero or more answers
     return render(request, 'answers.html', context, {'form': form, })
 

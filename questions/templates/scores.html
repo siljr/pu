@@ -3,22 +3,50 @@
 
 {% block content %}
 
-    <br>
-    <br>
-    <br>
-    <br>
+
+
+
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="container">
+  <h2>Users</h2>
+   <div class="table-responsive">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Firstname</th>
+        <th>Lastname</th>
+        <th>Username</th>
+        <th>Score</th>
+      </tr>
+    </thead>
+    <tbody>
     {% if user.is_staff %}
-        First name&emsp; Last name&emsp;Username&emsp;Score <br>
         {% for user, score  in lists %}
-            {{ user.first_name }}&emsp;{{ user.last_name }}&emsp;{{ user.username }}&emsp;{{ score }}<br>
-
-
-        {% endfor %}
+      <tr>
+        <td>{{ user.first_name }}</td>
+        <td>{{ user.last_name }}</td>
+        <td>{{ user.username }}</td>
+        <td>{{ score }}</td>
+      </tr>
+    {% endfor %}
     {% else %}
         You do not have permission to this page <br>
         <a href="/questions/">Home</a>
-
     {% endif %}
+    </tbody>
+  </table>
+  </div>
+</div>
+
+</body>
 
 
 
