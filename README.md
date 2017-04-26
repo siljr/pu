@@ -1,4 +1,4 @@
-[![Coverage Status](https://coveralls.io/repos/github/siljr/pu/badge.svg?branch=test)](https://coveralls.io/github/siljr/pu?branch=test)
+[![Coverage Status](https://coveralls.io/repos/github/siljr/pu/badge.svg?branch=master)](https://coveralls.io/github/siljr/pu?branch=master)
 [![Build Status](https://travis-ci.org/siljr/pu.svg?branch=master)](https://travis-ci.org/siljr/pu)
 
 TDT4140 - Programvareutvikling
